@@ -8,7 +8,7 @@
 <template>
   <el-form-render :model="model" :items="items" />
   
-  <code><pre>model: {{ JSON.stringify(model, null, '  ') }}</pre></code>
+  <code block><pre>model: {{ JSON.stringify(model, null, '  ') }}</pre></code>
 </template>
 
 <script setup>
@@ -45,7 +45,7 @@ const items = [
     </el-form-item>
 
     <el-form-item>
-      <code><pre>model: {{ JSON.stringify(model, null, '  ') }}</pre></code>
+      <code block><pre>model: {{ JSON.stringify(model, null, '  ') }}</pre></code>
     </el-form-item>
   </el-form-render>
 </template>
@@ -94,7 +94,7 @@ const onSubmit = () => {
     </el-form-item>
 
     <el-form-item>
-      <code><pre>model: {{ JSON.stringify(model, null, '  ') }}</pre></code>
+      <code block><pre>model: {{ JSON.stringify(model, null, '  ') }}</pre></code>
     </el-form-item>
   </el-form-render>
 </template>
@@ -170,7 +170,7 @@ const submitForm = () => {
     </el-form-item>
 
     <el-form-item>
-      <code><pre>model: {{ JSON.stringify(model, null, '  ') }}</pre></code>
+      <code block><pre>model: {{ JSON.stringify(model, null, '  ') }}</pre></code>
     </el-form-item>
   </el-form-render>
 </template>
@@ -201,7 +201,7 @@ const items = [
 <template>
   <el-form-render :model="model" :items="items" label-width="60" label-position="left" />
   
-  <code><pre>model: {{ JSON.stringify(model, null, '  ') }}</pre></code>
+  <code block><pre>model: {{ JSON.stringify(model, null, '  ') }}</pre></code>
 </template>
 
 <script setup>
@@ -225,7 +225,7 @@ const items = [
 <template>
   <el-form-render :model="model" :items="items" label-width="60" />
   
-  <code><pre>model: {{ JSON.stringify(model, null, '  ') }}</pre></code>
+  <code block><pre>model: {{ JSON.stringify(model, null, '  ') }}</pre></code>
 </template>
 
 <script setup>

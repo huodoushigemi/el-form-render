@@ -17,7 +17,7 @@
 <template>
   <el-form-render :model="model" :items="items" />
   
-  <code><pre>model: {{ JSON.stringify(model, null, '  ') }}</pre></code>
+  <code block><pre>model: {{ JSON.stringify(model, null, '  ') }}</pre></code>
 </template>
 
 <script setup lang="ts">

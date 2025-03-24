@@ -8,6 +8,7 @@ import ElementPlus, { ID_INJECTION_KEY } from 'element-plus'
 import 'element-plus/dist/index.css'
 import 'element-plus/theme-chalk/dark/css-vars.css'
 import 'virtual:uno.css'
+import './css.scss'
 
 export default {
   ...DefaultTheme,

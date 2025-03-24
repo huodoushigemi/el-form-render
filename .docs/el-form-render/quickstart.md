@@ -17,7 +17,7 @@ pnpm add el-form-render
     { lp: ['开关', 'onoff'], type: 'switch' },
   ]" />
   
-  <code><pre>model: {{ JSON.stringify(model, null, '  ') }}</pre></code>
+  <code block><pre>model: {{ JSON.stringify(model, null, '  ') }}</pre></code>
 </template>
 
 <script setup>
