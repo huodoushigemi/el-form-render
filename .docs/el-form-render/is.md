@@ -15,25 +15,37 @@
 
 ```vue preview
 <template>
-  <el-form-render :model="model" :items="items" />
+  <el-form-render :model="model" :items="[
+    { is: 'el-divider', children: '自定义组件' },
+    { lp: ['姓名', 'name'], el: { is: MyInput, placeholder: '这是一个原生输入框' } },
+    { lp: ['年龄', 'age'], el: { is: MyRange } },
+    { lp: ['是否', 'is'], el: { is: MyCheckbox } }, 
+    { lp: ['日期', 'date'], el: { is: MyDate } },
+    { is: 'el-divider', children: 'element-plus' },
+    { lp: ['姓名', 'name'] },
+    { lp: ['年龄', 'age'], type: 'slider' },
+    { lp: ['是否', 'is'], type: 'checkbox' },
+    { lp: ['日期', 'date'], type: 'date-picker', el: { valueFormat: 'YYYY-MM-DD' } },
+    { is: 'el-divider' },
+  ]" />
   
   <code block><pre>model: {{ JSON.stringify(model, null, '  ') }}</pre></code>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { h, reactive } from 'vue'
-import ElFormRender, { Item } from 'el-form-render'
+import ElFormRender from 'el-form-render'
 
-const model = reactive({})
+const model = reactive({ age: 26 })
 
 // 自定义 input
 const MyInput = ({ modelValue, ...attrs }, { emit }) => (
-  h('input', { value: modelValue, onInput: e => emit('update:modelValue', e.target.value), ...attrs })
+  h('input', { type: 'text', value: modelValue, onInput: e => emit('update:modelValue', e.target.value), ...attrs })
 )
 
 // 自定义 sider
 const MyRange = ({ modelValue, ...attrs }, { emit }) => (
-  h('input', { type: 'range', value: modelValue, onInput: e => emit('update:modelValue', e.target.value), ...attrs })
+  h('input', { type: 'range', value: modelValue, onInput: e => emit('update:modelValue', +e.target.value), ...attrs })
 )
 
 // 自定义 checkbox
@@ -41,14 +53,18 @@ const MyCheckbox = ({ modelValue, ...attrs }, { emit }) => (
   h('input', { type: 'checkbox', checked: modelValue, onInput: e => emit('update:modelValue', e.target.checked), ...attrs })
 )
 
-const items: Item[] = [
-  { lp: ['姓名', 'name'], el: { is: MyInput, placeholder: '这是一个原生输入框' } },
-  { lp: ['年龄', 'age'], el: { is: MyRange } },
-  { lp: ['性别', 'sex'], type: 'switch' },
-  { lp: ['是否', 'is'], el: { is: MyCheckbox } },
-  { lp: ['是否', 'is'], type: 'checkbox' },
-]
+// 自定义 date
+const MyDate = ({ modelValue, ...attrs }, { emit }) => (
+  h('input', { type: 'date', value: modelValue, onInput: e => emit('update:modelValue', e.target.value), ...attrs })
+)
 </script>
+
+<style scope>
+input[type="text"],
+input[type="range"] {
+  width: 100%;
+}
+</style>
 ```
 
 ## 关于 `el.is` 属性的更多用法详见 [`<component>`](https://vuejs.org/api/built-in-special-elements.html#component)

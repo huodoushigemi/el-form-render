@@ -29,10 +29,10 @@ const opts = [
 const model = reactive({})
 
 const items: Item[] = [
-  { lp: ['Normal', 'normal'], type: 'select', options: opts },
-  { lp: ['Function', 'function'], type: 'select', options: () => opts },
-  { lp: ['Promise', 'promise'], type: 'select', options: Promise.resolve(opts) },
-  { lp: ['AsynFunction', 'asynFunction'], type: 'select', options: () => Promise.resolve(opts) },
+  { lp: ['Normal', 'normal'], options: opts },
+  { lp: ['Function', 'function'], options: () => opts },
+  { lp: ['Promise', 'promise'], options: Promise.resolve(opts) },
+  { lp: ['AsynFunction', 'asynFunction'], options: () => Promise.resolve(opts) },
 ]
 </script>
 ```

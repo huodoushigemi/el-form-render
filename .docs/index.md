@@ -13,5 +13,5 @@ hero:
 
 features:
   - title: ✅ 表单渲染引擎
-    details: JSON 渲染表单<br />轻便小巧 Minified <b> 5 KB</b>
+    details: JSON 渲染表单<br />轻便小巧 Minified <b> 7 KB</b>
 ---
