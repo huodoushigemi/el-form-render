@@ -38,7 +38,7 @@ export default defineConfig({
     ]
   },
 
-  base: '/',
+  base: './',
   outDir: '../docs-dist',
 
   vite: {
