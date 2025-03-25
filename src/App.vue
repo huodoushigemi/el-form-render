@@ -1,30 +1,42 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+  <Form
+    ref="form"
+    :model="model"
+    label-width="auto"
+    :items="[
+      // 将 is 属性设置为 div 元素
+      { is: 'div', class: 'grid grid-cols-2 gap-x-4', children: [
+        { lp: ['文本', 'text'] },
+        { lp: ['数字', 'number'], type: 'input-number' },
+        { lp: ['开关', 'onoff'], type: 'switch' },
+        { lp: ['日期', 'date'], type: 'date-picker' }
+      ] },
+      // 将 is 属性设置为 分割线组件
+      { is: 'el-divider' },
+      // 将 is 属性设置为 div 元素
+      { is: 'div', class: 'grid grid-cols-2 gap-x-4', children: [
+        { lp: ['标签', 'tags'], type: 'input-tag' },
+        { lp: ['评分', 'rate'], type: 'rate' },
+        { lp: ['滑块', 'number'], type: 'slider' },
+        { lp: ['颜色', 'color'], type: 'color-picker' }
+      ] },
+      // 将 is 属性设置为 分割线组件
+      { is: 'el-divider' },
+      { lp: ['备注', 'remark'], el: { type: 'textarea', autosize: { minRows: 2, maxRows: 4 } } }
+    ]"
+    @submit.prevent="$refs.form.validate()"
+    @reset="$refs.form.resetFields()"
+  >
+    <el-form-item label=" ">
+      <el-button type="primary" native-type="submit">提交</el-button>
+      <el-button native-type="reset">重置</el-button>
+    </el-form-item>
+  </Form>
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
+<script setup>
+import { ref } from 'vue'
+import Form from 'el-form-render'
+
+const model = ref({})
+</script>

@@ -31,6 +31,12 @@ export default defineConfig({
           // { text: 'Runtime API Examples', link: '/markdown-examples' },
         ]
       },
+      {
+        text: '文档',
+        items: [
+          { text: 'cursor', link: '/docs/docs' }
+        ]
+      }
     ],
 
     socialLinks: [
