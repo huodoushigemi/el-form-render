@@ -1,4 +1,4 @@
-# ElFormRender 表单渲染
+# 基础使用
 
 支持 [`el-form`](https://element-plus.gitee.io/zh-CN/component/form.html#form-attributes) 所有属性
 
@@ -6,16 +6,16 @@
 
 ```vue preview
 <template>
-  <el-form-render :model="model" :items="items" />
+  <Form :model="model" :items="items" />
   
   <code block><pre>model: {{ JSON.stringify(model, null, '  ') }}</pre></code>
 </template>
 
 <script setup>
-import { reactive } from 'vue'
-import ElFormRender from 'el-form-render'
+import { ref } from 'vue'
+import Form from 'el-form-render'
 
-const model = reactive({})
+const model = ref({})
 
 const items = [
   { lp: ['姓名', 'name'] },
@@ -38,7 +38,7 @@ const items = [
 
 ```vue preview
 <template>
-  <el-form-render :model="model" :items="items" label-width="120px">
+  <Form :model="model" :items="items" label-width="120px">
     <el-form-item>
       <el-button type="primary" @click="onSubmit">Create</el-button>
       <el-button>Cancel</el-button>
@@ -47,14 +47,14 @@ const items = [
     <el-form-item>
       <code block><pre>model: {{ JSON.stringify(model, null, '  ') }}</pre></code>
     </el-form-item>
-  </el-form-render>
+  </Form>
 </template>
 
 <script setup>
-import { reactive } from 'vue'
-import ElFormRender from 'el-form-render'
+import { ref } from 'vue'
+import Form from 'el-form-render'
 
-const model = reactive({})
+const model = ref({})
 
 const items = [
   { lp: ['name', 'name'] },
@@ -87,7 +87,7 @@ const onSubmit = () => {
 
 ```vue preview
 <template>
-  <el-form-render ref="form" :model="model" :items="items" label-width="120px" :autocomplete="false">
+  <Form ref="form" :model="model" :items="items" label-width="120px" :autocomplete="false">
     <el-form-item>
       <el-button type="primary" @click="submitForm()">Submit</el-button>
       <el-button @click="form.resetFields()">Reset</el-button>
@@ -96,15 +96,15 @@ const onSubmit = () => {
     <el-form-item>
       <code block><pre>model: {{ JSON.stringify(model, null, '  ') }}</pre></code>
     </el-form-item>
-  </el-form-render>
+  </Form>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
-import ElFormRender from 'el-form-render'
+import { ref } from 'vue'
+import Form from 'el-form-render'
 
 const form = ref()
-const model = reactive({})
+const model = ref({})
 
 const items = [
   {
@@ -163,7 +163,7 @@ const submitForm = () => {
 
 ```vue preview
 <template>
-  <el-form-render ref="form" :model="model" :items="items" label-width="120px">
+  <Form ref="form" :model="model" :items="items" label-width="120px">
     <el-form-item>
       <el-button type="primary" @click="$refs.form.validate()">Submit</el-button>
       <el-button @click="$refs.form.resetFields()">Reset</el-button>
@@ -172,14 +172,14 @@ const submitForm = () => {
     <el-form-item>
       <code block><pre>model: {{ JSON.stringify(model, null, '  ') }}</pre></code>
     </el-form-item>
-  </el-form-render>
+  </Form>
 </template>
 
 <script setup>
-import { reactive } from 'vue'
-import ElFormRender from 'el-form-render'
+import { ref } from 'vue'
+import Form from 'el-form-render'
 
-const model = reactive({})
+const model = ref({})
 
 const items = [
   { lp: ['姓名', 'name'] },
@@ -199,16 +199,16 @@ const items = [
 
 ```vue preview
 <template>
-  <el-form-render :model="model" :items="items" label-width="60" label-position="left" />
+  <Form :model="model" :items="items" label-width="60" label-position="left" />
   
   <code block><pre>model: {{ JSON.stringify(model, null, '  ') }}</pre></code>
 </template>
 
 <script setup>
-import { reactive } from 'vue'
-import ElFormRender from 'el-form-render'
+import { ref } from 'vue'
+import Form from 'el-form-render'
 
-const model = reactive({})
+const model = ref({})
 
 const items = [
   { lp: 'control', options: ['show', 'hide'] },
@@ -223,16 +223,16 @@ const items = [
 
 ```vue preview
 <template>
-  <el-form-render :model="model" :items="items" label-width="60" />
+  <Form :model="model" :items="items" label-width="60" />
   
   <code block><pre>model: {{ JSON.stringify(model, null, '  ') }}</pre></code>
 </template>
 
 <script setup>
-import { reactive } from 'vue'
-import ElFormRender from 'el-form-render'
+import { ref } from 'vue'
+import Form from 'el-form-render'
 
-const model = reactive({})
+const model = ref({})
 
 const items = [
   {

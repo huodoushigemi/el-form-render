@@ -21,9 +21,9 @@ pnpm add el-form-render
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { ref } from 'vue'
 import Form from 'el-form-render'
 
-const model = reactive({})
+const model = ref({})
 </script>
 ```

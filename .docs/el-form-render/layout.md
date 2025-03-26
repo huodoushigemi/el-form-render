@@ -6,7 +6,7 @@
 
 ```vue preview
 <template>
-  <el-form-render class="grid grid-cols-3 gap-x-8" :model="model" :items="[
+  <Form class="grid grid-cols-3 gap-x-8" :model="model" :items="[
     { lp: '输入' },
     { lp: '输入' },
     { lp: '输入' },
@@ -16,18 +16,18 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue'
-import ElFormRender from 'el-form-render'
+import { ref } from 'vue'
+import Form from 'el-form-render'
 
-const model = reactive({})
+const model = ref({})
 </script>
 ```
 
-## 
+## 多列布局
 
 ```vue preview
 <template>
-  <el-form-render :model="model" :items="[
+  <Form :model="model" :items="[
     { is: 'el-divider', children: '1 列布局' },
     { lp: '输入' },
     { is: 'el-divider', children: '2 列布局' },
@@ -52,9 +52,66 @@ const model = reactive({})
 </template>
 
 <script setup>
-import { reactive } from 'vue'
-import ElFormRender from 'el-form-render'
+import { ref } from 'vue'
+import Form from 'el-form-render'
 
-const model = reactive({})
+const model = ref({})
+</script>
+```
+
+## 折叠面板
+
+```vue preview
+<template>
+  <Form :model="model" :items="[
+    { is: 'el-collapse', children: [
+      { is: 'el-collapse-item', title: 'Item 1', children: [
+        { lp: '输入 1' },
+        { lp: '输入 1' },
+        { lp: '输入 1' },
+      ] },
+      { is: 'el-collapse-item', title: 'Item 2', children: [
+        { lp: '输入 2' },
+        { lp: '输入 2' },
+        { lp: '输入 2' },
+      ] }
+    ] },
+  ]" />
+</template>
+
+<script setup>
+import { ref } from 'vue'
+import Form from 'el-form-render'
+
+const model = ref({})
+</script>
+```
+
+## Tabs
+
+```vue preview
+<template>
+  <Form :model="model" :items="[
+    { lp: '输入' },
+    { is: 'el-tabs', children: [
+      { is: 'el-tab-pane', label: 'Pane 1', children: [
+        { lp: '输入 1' },
+        { lp: '输入 1' },
+        { lp: '输入 1' },
+      ] },
+      { is: 'el-tab-pane', label: 'Pane 2', children: [
+        { lp: '输入 2' },
+        { lp: '输入 2' },
+        { lp: '输入 2' },
+      ] }
+    ] },
+  ]" />
+</template>
+
+<script setup>
+import { ref } from 'vue'
+import Form from 'el-form-render'
+
+const model = ref({})
 </script>
 ```

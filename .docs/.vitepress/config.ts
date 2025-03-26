@@ -7,7 +7,7 @@ import path from 'path'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "el-form-render",
-  description: "🚀 JSON 渲染表单，无限扩展",
+  description: "🚀 AI 友好型 JSON 渲染表单，无限扩展",
 
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config

@@ -12,23 +12,23 @@
 
 ```vue preview
 <template>
-  <el-form-render :model="model" :items="items" label-width="auto" />
+  <Form :model="model" :items="items" label-width="auto" />
   
   <code block><pre>model: {{ JSON.stringify(model, null, '  ') }}</pre></code>
 </template>
 
-<script setup lang="ts">
-import { reactive } from 'vue'
-import ElFormRender, { Item } from 'el-form-render'
+<script setup>
+import { ref } from 'vue'
+import Form from 'el-form-render'
 
 const opts = [
   { value: 'man' },
   { value: 'woman' },
 ]
 
-const model = reactive({})
+const model = ref({})
 
-const items: Item[] = [
+const items = [
   { lp: ['Normal', 'normal'], options: opts },
   { lp: ['Function', 'function'], options: () => opts },
   { lp: ['Promise', 'promise'], options: Promise.resolve(opts) },

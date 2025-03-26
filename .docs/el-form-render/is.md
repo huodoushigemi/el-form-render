@@ -15,7 +15,7 @@
 
 ```vue preview
 <template>
-  <el-form-render :model="model" :items="[
+  <Form :model="model" :items="[
     { is: 'el-divider', children: '自定义组件' },
     { lp: ['姓名', 'name'], el: { is: MyInput, placeholder: '这是一个原生输入框' } },
     { lp: ['年龄', 'age'], el: { is: MyRange } },
@@ -33,10 +33,10 @@
 </template>
 
 <script setup>
-import { h, reactive } from 'vue'
-import ElFormRender from 'el-form-render'
+import { h, ref } from 'vue'
+import Form from 'el-form-render'
 
-const model = reactive({ age: 26 })
+const model = ref({ age: 26 })
 
 // 自定义 input
 const MyInput = ({ modelValue, ...attrs }, { emit }) => (
