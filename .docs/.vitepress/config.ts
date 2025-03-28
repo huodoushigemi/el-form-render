@@ -22,6 +22,7 @@ export default defineConfig({
         items: [
           { text: '快速开始', link: '/el-form-render/quickstart' },
           { text: '基础使用', link: '/el-form-render/basic' },
+          { text: '组件联动', link: '/el-form-render/linkage' },
           { text: 'options 属性', link: '/el-form-render/options' },
           { text: '自定义组件', link: '/el-form-render/is' },
           { text: '复杂布局', link: '/el-form-render/layout' },

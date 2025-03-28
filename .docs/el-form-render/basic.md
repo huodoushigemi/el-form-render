@@ -4,28 +4,6 @@
 
 ## 基础用法
 
-```vue preview
-<template>
-  <Form :model="model" :items="items" />
-  
-  <code block><pre>model: {{ JSON.stringify(model, null, '  ') }}</pre></code>
-</template>
-
-<script setup>
-import { ref } from 'vue'
-import Form from 'el-form-render'
-
-const model = ref({})
-
-const items = [
-  { lp: ['姓名', 'name'] },
-  { lp: ['年龄', 'age'] },
-  { lp: ['性别', 'sex'], type: 'switch' },
-  { lp: ['是否', 'is'], type: 'checkbox' },
-]
-</script>
-```
-
 ::: tip
 `lp` 是 `label  prop` 的缩写
 
@@ -38,9 +16,17 @@ const items = [
 
 ```vue preview
 <template>
-  <Form :model="model" :items="items" label-width="120px">
+  <Form :model="model" label-width="120px" @submit.prevent="onSubmit" :items="[
+    { lp: ['name', 'name'] },
+    { lp: ['Activity zone', 'region'] },
+    { lp: ['time', 'date'], type: 'time-picker' },
+    { lp: ['Instant delivery', 'delivery'], type: 'switch' },
+    { lp: ['Activity type', 'type'], type: 'checkbox-group', options: ['Online activities', 'Promotion activities', 'Offline activities', 'Simple brand exposure'] },
+    { lp: ['Resources', 'resource'], type: 'radio-group', options: ['Sponsor', 'Venue'] },
+    { lp: ['Activity form', 'desc'], el: { type: 'textarea' } },
+  ]">
     <el-form-item>
-      <el-button type="primary" @click="onSubmit">Create</el-button>
+      <el-button type="primary" native-type="submit">Create</el-button>
       <el-button>Cancel</el-button>
     </el-form-item>
 
@@ -56,25 +42,6 @@ import Form from 'el-form-render'
 
 const model = ref({})
 
-const items = [
-  { lp: ['name', 'name'] },
-  { lp: ['Activity zone', 'region'] },
-  { lp: ['time', 'date'], type: 'time-picker' },
-  { lp: ['Instant delivery', 'delivery'], type: 'switch' },
-  {
-    lp: ['Activity type', 'type'],
-    type: 'checkbox-group',
-    options: [
-      { value: 'Online activities' },
-      { value: 'Promotion activities' },
-      { value: 'Offline activities' },
-      { value: 'Simple brand exposure' },
-    ]
-  },
-  { lp: ['Resources', 'resource'], type: 'radio-group', options: [{ value: 'Sponsor' }, { value: 'Venue' }] },
-  { lp: ['Activity form', 'desc'], el: { type: "textarea" } },
-]
-
 const onSubmit = () => {
   alert('submit!')
 }
@@ -87,10 +54,10 @@ const onSubmit = () => {
 
 ```vue preview
 <template>
-  <Form ref="form" :model="model" :items="items" label-width="120px" :autocomplete="false">
+  <Form ref="form" :model="model" label-width="120px" @submit.prevent="onSubmit" @reset="form.resetFields()" :items="items">
     <el-form-item>
-      <el-button type="primary" @click="submitForm()">Submit</el-button>
-      <el-button @click="form.resetFields()">Reset</el-button>
+      <el-button type="primary" native-type="submit">Submit</el-button>
+      <el-button native-type="reset">Reset</el-button>
     </el-form-item>
 
     <el-form-item>
@@ -109,50 +76,25 @@ const model = ref({})
 const items = [
   {
     lp: ['Password', 'pass'],
-    rules: {
-      validator(rule, val, cb) {
-        if (!val) {
-          cb('Please input the password')
-        } else if (!model.checkPass) {
-          form.value.validateField('checkPass')
-        }
-      }
-    },
+    required: true,
     el: { type: 'password' }
   },
   {
     lp: ['Confirm', 'checkPass'],
-    rules: {
-      validator(rule, val, cb) {
-        if (!val) {
-          cb('Please input the password again')
-        } else if (val !== model.pass) {
-          cb(`Two inputs don't match!`)
-        }
-      }
-    },
-    el: { type: 'password' }
+    required: true,
+    rules: { validator: (rule, val, cb) => val != model.value.pass ? cb(`Two inputs don't match!`) : null },
+    el: { type: 'password'  }
   },
   {
     lp: ['Age', 'age'],
-    rules: {
-      validator(rule, val, cb) {
-        if (!val) return cb('Please input the age')
-        if (!Number.isInteger(val)) return cb('Please input digits')
-        if (+val < 18) return cb('Age must be greater than 18')
-      }
-    }
+    rules: { validator: (rule, val, cb) => +val < 18 ? cb('Age must be greater than 18') : null },
+    el: { type: 'number' }
   }
 ]
 
-const submitForm = () => {
-  form.value.validate(bool => {
-    if (bool) {
-      alert('submit!')
-    } else {
-      console.log('error submit!')
-    }
-  })
+async function  onSubmit() {
+  await form.value.validate()
+  alert('submit!')
 }
 </script>
 ```
@@ -163,7 +105,15 @@ const submitForm = () => {
 
 ```vue preview
 <template>
-  <Form ref="form" :model="model" :items="items" label-width="120px">
+  <Form ref="form" :model="model" label-width="120px" :items="[
+    { lp: ['姓名', 'name'] },
+    { lp: ['性别', 'sex'], type: 'select', options: [{ value: '男' }, { value: '女' }] },
+    {
+      lp: ['介绍', 'intro'],
+      rules: (o) => ({ required: o.sex === '男', message: '必填 ' }),
+      el: { type: 'textarea' }
+    },
+  ]">
     <el-form-item>
       <el-button type="primary" @click="$refs.form.validate()">Submit</el-button>
       <el-button @click="$refs.form.resetFields()">Reset</el-button>
@@ -180,40 +130,6 @@ import { ref } from 'vue'
 import Form from 'el-form-render'
 
 const model = ref({})
-
-const items = [
-  { lp: ['姓名', 'name'] },
-  { lp: ['性别', 'sex'], type: 'select', options: [{ value: '男' }, { value: '女' }] },
-  {
-    lp: ['介绍', 'intro'],
-    rules: (o) => ({ required: o.sex === '男', message: '必填 ' }),
-    el: { type: 'textarea' }
-  },
-]
-</script>
-```
-
-## 隐藏项
-
-通过设置 `hidden` 动态隐藏表单项。
-
-```vue preview
-<template>
-  <Form :model="model" :items="items" label-width="60" label-position="left" />
-  
-  <code block><pre>model: {{ JSON.stringify(model, null, '  ') }}</pre></code>
-</template>
-
-<script setup>
-import { ref } from 'vue'
-import Form from 'el-form-render'
-
-const model = ref({})
-
-const items = [
-  { lp: 'control', options: ['show', 'hide'] },
-  { lp: 'name', hidden: () => model.control != 'show' }
-]
 </script>
 ```
 

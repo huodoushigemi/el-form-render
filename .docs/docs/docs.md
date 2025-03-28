@@ -12,6 +12,8 @@ el-form-render 基于 element-plus。在完全继承 el-form 组件的基础上�
 pnpm add el-form-render
 ```
 
+> 请确保已安装 element-plus
+
 ## 使用
 
 一个基础表单
