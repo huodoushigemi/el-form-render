@@ -104,7 +104,7 @@ const model = ref({})
 - `props` 需要接收 `modelValue`
 - 对外触发 `update:modelValue` 事件
 
-```vue preview
+```vue
 <template>
   <Form :model="model" :items="[
     { is: 'el-divider', children: '自定义组件' },
