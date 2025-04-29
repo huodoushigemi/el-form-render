@@ -1,8 +1,16 @@
 {
   "name": "el-form-render",
-  "private": true,
-  "version": "0.0.0",
+  "version": "1.0.5",
   "type": "module",
+  "module": "index.mjs",
+  "types": "index.d.ts",
+  "description": "vue3 + element-plus render form-item easily",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/huodoushigemi/el-form-render"
+  },
+  "homepage": "https://huodoushigemi.github.io/el-form-render/",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
@@ -11,16 +19,30 @@
     "docs:build": "vitepress build .docs",
     "docs:preview": "vitepress preview .docs"
   },
+  "exports": {
+    ".": {
+      "import": "./index.mjs",
+      "types": "./index.d.ts"
+    },
+    "./element-plus": "./ui/element-plus.mjs",
+    "./naive-ui": "./ui/naive-ui.mjs",
+    "./vant": "./ui/vant4.mjs",
+    "./antdv": "./ui/antdv4.mjs",
+    "./*": "./*"
+  },
   "dependencies": {
+    "@el-lowcode/render": "^1.0.4",
+    "@vue/shared": "^3.*",
     "@vueuse/core": "^13.0.0",
     "el-form-render": "^1.0.5",
-    "element-plus": "^2.9.7",
-    "vue": "^3.5.13"
+    "vue": "^3.*"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.1",
     "@vitejs/plugin-vue-jsx": "^4.1.2",
     "@vue/tsconfig": "^0.7.0",
+    "element-plus": "^2.9.9",
+    "naive-ui": "^2.41.0",
     "sass-embedded": "^1.86.0",
     "typescript": "~5.7.2",
     "unocss": "66.1.0-beta.6",
