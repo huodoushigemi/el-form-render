@@ -42,6 +42,7 @@
     "@vitejs/plugin-vue-jsx": "^4.1.2",
     "@vue/tsconfig": "^0.7.0",
     "element-plus": "^2.9.9",
+    "fs-extra": "^11.3.0",
     "naive-ui": "^2.41.0",
     "sass-embedded": "^1.86.0",
     "typescript": "~5.7.2",

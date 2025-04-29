@@ -1,5 +1,5 @@
-import { type InjectionKey, defineComponent, inject, provide, ref, type ExtractPropTypes, mergeProps, camelize, renderSlot } from 'vue'
-import { objectPick, toReactive } from '@vueuse/core'
+import { type InjectionKey, defineComponent, inject, provide, ref, type ExtractPropTypes, mergeProps, camelize, renderSlot, reactive } from 'vue'
+import { objectPick, reactiveComputed, toReactive } from '@vueuse/core'
 import { createRender } from '@el-lowcode/render'
 import { type Obj, unFn, useTransformer } from './utils'
 import { type Item, formItemRenderPropsBase } from './props'
@@ -57,7 +57,7 @@ export function createFormRender<F extends Obj, FI extends Obj>({ Form, formName
     name: formItemName,
     setup(props: Item, { slots }) {
       const form = inject(formRenderContextKey)
-      const model = new Proxy({}, { get: (t, k: string) => form?.model?.[k], set: (t, k: string, v) => (form?.model && (form.model[k] = v), true) })
+      const model = reactiveComputed(() => form?.model || reactive({}))
 
       const transformer = useTransformer(model, () => _prop(props), props)
 
