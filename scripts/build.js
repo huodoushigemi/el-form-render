@@ -4,13 +4,20 @@ import fs from 'fs'
 import fse from 'fs-extra/esm'
 import pkg from '../package.json' with { type: 'json' }
 
-const input = [
-  '/src/index.ts',
-  '/src/createFormRender',
-  '/src/ui/element-plus',
-  // '/src/ui/antdv4',
-  '/src/ui/naive-ui',
-].map(e => path.join(process.cwd(), e))
+const cwd = process.cwd()
+
+const input = {
+  'index': 'src/index',
+  'createFormRender': 'src/createFormRender',
+  'ui/element-plus': 'src/ui/element-plus',
+  'ui/naive-ui': 'src/ui/naive-ui',
+  'ui/antdv': 'src/ui/antdv',
+  'ui/vant': 'src/ui/vant',
+}
+
+const exts = {
+  es: 'mjs'
+}
 
 await build({
   build: {
@@ -20,7 +27,7 @@ await build({
     lib: {
       entry: input,
       formats: ['es'],
-      fileName: '[name]',
+      fileName: (format, e) => `${e}.${exts[format] ?? 'js'}`,
     },
     minify: false,
     rollupOptions: {
@@ -29,7 +36,7 @@ await build({
   },
 })
 
-// ;['package.json', 'README.md'].forEach(name => {
-//   const file = path.join(path.dirname(input), name)
-//   if (fs.existsSync(file)) fse.copySync(file, path.join(outDir, name))
-// })
+;['package.json', 'README.md'].forEach(name => {
+  const file = path.join(cwd, name)
+  if (fs.existsSync(file)) fse.copySync(file, path.join('dist', name))
+})

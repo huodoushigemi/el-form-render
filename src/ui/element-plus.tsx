@@ -25,7 +25,7 @@ const { FormRender, FormItemRender, formRenderProps, formItemRenderProps } = cre
         </el-select>
       )
     }
-    else if (type == 'checkbox-group' || is == 'ElCheckboxGroup' || is == 'checks') {
+    else if (type == 'checkbox-group' || is == 'ElCheckboxGroup' || type == 'checks') {
       return (
         <el-checkbox-group {...el}>
           {options.map(opt => (
@@ -36,7 +36,7 @@ const { FormRender, FormItemRender, formRenderProps, formItemRenderProps } = cre
         </el-checkbox-group>
       )
     }
-    else if (type == 'radio-group' || is == 'ElRadioGroup' || is == 'radios') {
+    else if (type == 'radio-group' || is == 'ElRadioGroup' || type == 'radios') {
       return (
         <el-radio-group {...el}>
           {options.map(opt => (

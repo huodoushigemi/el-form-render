@@ -21,6 +21,7 @@
     { lp: ['年龄', 'age'], el: { is: MyRange } },
     { lp: ['是否', 'is'], el: { is: MyCheckbox } }, 
     { lp: ['日期', 'date'], el: { is: MyDate } },
+    
     { is: 'el-divider', children: 'element-plus' },
     { lp: ['姓名', 'name'] },
     { lp: ['年龄', 'age'], type: 'slider' },

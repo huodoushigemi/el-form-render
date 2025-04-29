@@ -1,6 +1,6 @@
 # 基础使用
 
-支持 [`el-form`](https://element-plus.gitee.io/zh-CN/component/form.html#form-attributes) 所有属性
+支持 [`el-form`](https://element-plus.org/zh-CN/component/form.html#form-api) 所有属性
 
 ## 基础用法
 
@@ -92,7 +92,7 @@ const items = [
   }
 ]
 
-async function  onSubmit() {
+async function onSubmit() {
   await form.value.validate()
   alert('submit!')
 }

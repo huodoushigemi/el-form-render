@@ -10,10 +10,9 @@
 
 在我们的日常开发中，有很多带有表单的页面，通常形式结构相似，逻辑重复。`el-form-render` 没有复杂的逻辑。它仅将JSON转换为呈现表单项，节省编写业务逻辑的时间和精力，并减少重复代码。
 
-<!-- ## 🔗 链接
+## 📄 文档
 
-- [文档](http://httpsgiteecomepalserver.gitee.io/el-lowcode)
-- [自定义组件](http://httpsgiteecomepalserver.gitee.io/el-lowcode/el-form-render/is.html) -->
+**https://huodoushigemi.github.io/el-form-render**
 
 ## 🦄 快速开始
 

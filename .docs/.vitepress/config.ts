@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress'
 import Jsx from '@vitejs/plugin-vue-jsx'
 import MarkdownPreview from 'vite-plugin-markdown-preview'
 import UnoCSS from 'unocss/vite'
-import path from 'path'
+import rootConfig from '../../vite.config'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -26,9 +26,6 @@ export default defineConfig({
           { text: 'options 属性', link: '/el-form-render/options' },
           { text: '自定义组件', link: '/el-form-render/is' },
           { text: '复杂布局', link: '/el-form-render/layout' },
-          // { text: 'ant-design-vue', link: '/el-form-render/antdv' },
-          // { text: 'naive-ui', link: '/el-form-render/naive-ui' },
-          // { text: 'vant-ui', link: '/el-form-render/vant' },
           // { text: 'Runtime API Examples', link: '/markdown-examples' },
         ]
       },
@@ -37,7 +34,16 @@ export default defineConfig({
         items: [
           { text: 'cursor', link: '/docs/docs' }
         ]
-      }
+      },
+      {
+        text: 'UI 库',
+        items: [
+          { text: 'element-plus', link: '/ui/element-plus' },
+          { text: 'naive-ui', link: '/ui/naive-ui' },
+          { text: 'antdv', link: '/ui/antdv' },
+          { text: 'vant', link: '/ui/vant' },
+        ]
+      },
     ],
 
     socialLinks: [
@@ -50,11 +56,7 @@ export default defineConfig({
 
   vite: {
     resolve: {
-      alias: {
-        'el-form-render/antdv4': path.join(process.cwd(), 'packages/el-form-render/antdv4'),
-        'el-form-render/naive-ui': path.join(process.cwd(), 'packages/el-form-render/naive-ui'),
-        'el-form-render/vant4': path.join(process.cwd(), 'packages/el-form-render/vant4'),
-      }
+      alias: rootConfig.resolve?.alias
     },
     ssr: {
       noExternal: ['vite-plugin-markdown-preview'],

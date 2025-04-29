@@ -26,7 +26,7 @@ const { FormRender, FormItemRender } = createFormRender({
         <n-select {...el} options={options} />
       )
     }
-    else if (type == 'checkbox-group' || is == 'checks') {
+    else if (type == 'checkbox-group' || type == 'checks') {
       return (
         <n-checkbox-group {...el}>
           {options.map(opt => (
@@ -35,7 +35,7 @@ const { FormRender, FormItemRender } = createFormRender({
         </n-checkbox-group>
       )
     }
-    else if (type == 'radio-group' || is == 'radios') {
+    else if (type == 'radio-group' || type == 'radios') {
       return (
         <n-radio-group {...el}>
           {options.map(opt => (
@@ -63,5 +63,6 @@ FormItemRender.name = 'NFormItemRender'
 
 export const NFormRender = FormRender
 export const NFormItemRender = FormItemRender
+export const FormItem = FormItemRender
 
 export default NFormRender
