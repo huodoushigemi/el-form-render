@@ -176,7 +176,11 @@ const items = schema2items(model, {
 
 ```vue preview
 <template>
-  <Form ref="form" :model="model" :items="items" />
+  <Form ref="form" :model="model" :items="items">
+    <el-form-item>
+      <code block><pre>model: {{ JSON.stringify(model, null, '  ') }}</pre></code>
+    </el-form-item>
+  </Form>
 </template>
 
 <script setup>
@@ -194,7 +198,7 @@ const items = schema2items(model, {
   type: 'object',
   properties: {
     str1_arr: { type: 'array', items: { type: 'string' } },
-    str2_arr: { type: 'array', items: { type: 'string' }, ui: { type: 'select' } },
+    str2_arr: { type: 'array', items: { type: 'string' }, ui: { type: 'input-tag' } },
   }
 })
 
