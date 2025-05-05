@@ -68,3 +68,5 @@ export {
 }
 
 export default ElFormRender
+
+export * from './element-plus-jsf'

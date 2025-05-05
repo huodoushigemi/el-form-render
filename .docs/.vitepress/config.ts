@@ -30,6 +30,12 @@ export default defineConfig({
         ]
       },
       {
+        text: 'JSON Schema',
+        items: [
+          { text: '基础使用', link: '/jsf/basic' }
+        ]
+      },
+      {
         text: '文档',
         items: [
           { text: 'cursor', link: '/docs/docs' }

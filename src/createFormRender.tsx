@@ -116,8 +116,8 @@ export function createFormRender<F extends Obj, FI extends Obj>({ Form, formName
     props: formRenderProps,
     setup(props: ExtractPropTypes<typeof _formRenderProps>, { attrs, slots, expose }) {
       const _FormItemRender = createRender({
-        defaultIs: (item) => (
-          <FormItemRender {...item}>{{ default: slots[`$${_prop(item)}`] }}</FormItemRender>
+        defaultIs: (item, { slots }) => (
+          <FormItemRender {...item}>{{ default: slots[`$${_prop(item)}`] ?? slots.default }}</FormItemRender>
         )
       })
       

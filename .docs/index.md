@@ -13,7 +13,7 @@ hero:
 
 features:
   - title: ✅ JSON 渲染表单
-    details: 轻便小巧 Minified <b> 7 KB</b>
+    details: 轻便小巧 Minified <b> 10 KB</b>
   - title: ✅ ​AI 友好型架构
     details: AI 能够精准生成代码
   - title: ✅ ​布局拼装术
@@ -22,4 +22,8 @@ features:
     details: 自定义组件轻松扩展
   - title: ✅ 低代码
     details: ​代码量减少 50%-60%
+  - title: ✅ JSON Schema 支持
+    details: 统一规范​、语言无关、解耦设计
+  - title: ✅ UI 多样性
+    details: element | naive-ui | antdv | vant
 ---

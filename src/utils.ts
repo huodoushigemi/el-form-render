@@ -1,6 +1,5 @@
 import { type Ref, ref, toRaw, toValue } from 'vue'
-import { isArray } from '@vue/shared'
-import { camelize, isPromise, isString } from '@vue/shared'
+import { isArray, camelize, isPromise, isString } from '@vue/shared'
 import type { Item, Item0, NormalizedOpt, Opt } from './props'
 
 const solveLP = (lp: Item['lp']) => isArray(lp) ? lp : (lp ? [lp, camelize(lp!)] : [])

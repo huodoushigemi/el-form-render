@@ -26,12 +26,13 @@ await build({
     outDir: 'dist',
     lib: {
       entry: input,
-      formats: ['es'],
+      formats: ['cjs'],
       fileName: (format, e) => `${e}.${exts[format] ?? 'js'}`,
     },
-    minify: false,
+    // minify: true,
     rollupOptions: {
-      external: [...Object.keys(pkg.dependencies), ...Object.keys(pkg.devDependencies)]
+      // treeshake: 'smallest',
+      external: Object.keys({ ...pkg.dependencies, ...pkg.peerDependencies, ...pkg.devDependencies })
     }
   },
 })
