@@ -61,16 +61,17 @@ function onFinish() {
 
 </van-config-provider>
 
-<link rel="stylesheet" :href="css" />
+<component is="style">{{ css }}</component>
 
 <script>
 import { getCurrentInstance } from 'vue'
 import { useDark } from '@vueuse/core'
 import Vant from 'vant'
-import css from 'vant/lib/index.css?url'
+import css from 'vant/lib/index.css?raw'
 
 export default {
   data: () => ({
+    css,
     isDark: useDark({ storageKey: 'vitepress-theme-appearance' })
   }),
   beforeCreate() {

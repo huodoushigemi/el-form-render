@@ -62,16 +62,17 @@ function onFinish() {
 }
 </style>
 
-<link rel="stylesheet" :href="css" />
+<component is="style">{{ css }}</component>
 
 <script>
 import { getCurrentInstance } from 'vue'
 import { useDark } from '@vueuse/core'
 import Antd, { theme } from 'ant-design-vue'
-import css from 'ant-design-vue/dist/reset.css?url'
+import css from 'ant-design-vue/dist/reset.css?raw'
 
 export default {
   data: () => ({
+    css,
     theme,
     isDark: useDark({ storageKey: 'vitepress-theme-appearance' })
   }),
