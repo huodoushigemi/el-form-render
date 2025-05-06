@@ -1,0 +1,1 @@
+import{_ as r,c as o,o as t,b0 as l}from"./chunks/framework.BBFbQ79s.js";const u=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"docs/intro.md","filePath":"docs/intro.md"}'),n={name:"docs/intro.md"};function a(i,e,s,d,c,_){return t(),o("div",null,e[0]||(e[0]=[l("",9)]))}const g=r(n,[["render",a]]);export{u as __pageData,g as default};

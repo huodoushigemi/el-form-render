@@ -59,13 +59,13 @@ export default defineConfig({
 
   base: '/el-form-render',
   outDir: '../docs',
-
+  
   vite: {
     resolve: {
       alias: rootConfig.resolve?.alias
     },
     ssr: {
-      noExternal: ['vite-plugin-markdown-preview'],
+      noExternal: ['vite-plugin-markdown-preview', 'naive-ui'],
     },
     plugins: [
       Jsx(),
