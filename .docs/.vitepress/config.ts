@@ -58,7 +58,7 @@ export default defineConfig({
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/huodoushigemi/el-lowcode' }
+      { icon: 'github', link: 'https://github.com/huodoushigemi/el-form-render' }
     ]
   },
 
