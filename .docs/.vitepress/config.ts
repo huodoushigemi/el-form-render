@@ -1,8 +1,13 @@
 import { defineConfig } from 'vitepress'
+import path from 'path'
+import fs from 'fs/promises'
+import fse from 'fs-extra'
 import Jsx from '@vitejs/plugin-vue-jsx'
 import MarkdownPreview from 'vite-plugin-markdown-preview'
 import UnoCSS from 'unocss/vite'
 import rootConfig from '../../vite.config'
+
+const cwd = process.cwd()
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -71,6 +76,23 @@ export default defineConfig({
       Jsx(),
       MarkdownPreview(),
       UnoCSS(),
+      {
+        name: 'md-raw',
+        enforce: 'pre',
+        async load(id, options) {
+          const docsdir = path.join(cwd, '.docs').replaceAll('\\', '/')
+          const outdir = path.join(docsdir, 'raw').replaceAll('\\', '/')
+          if (id.endsWith('.md') && !id.startsWith(outdir)) {
+            const target = id.replace(docsdir, outdir)
+            await fse.ensureDir(path.dirname(target))
+            await fs.writeFile(
+              target,
+              `<pre class="language-markdown">{{doc}}</pre>\n\n<script setup>\nimport doc from '${path.relative(target, id).replaceAll('\\', '/').replace('../', './')}?raw'\n</script>`,
+              'utf8'
+            )
+          }
+        },
+      }
     ],
   },
 })

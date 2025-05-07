@@ -14,7 +14,7 @@ import Form from 'el-form-render/naive-ui'
 
 ```vue preview
 <template>
-  <Form :model="model" label-placement="left" label-width="auto" :items="[
+  <Form ref="form" :model="model" label-placement="left" label-width="auto" :items="[
     { lp: ['姓名', 'name'] },
     { lp: ['地址', 'address'], rule: { required: true } },
     { lp: ['年龄', 'age'], type: 'slider' },
