@@ -14,7 +14,7 @@ import Form from 'el-form-render/naive-ui'
 
 ```vue preview
 <template>
-  <Form ref="form" :model="model" label-placement="left" label-width="auto" :items="[
+  <Form :model="model" label-placement="left" label-width="auto" @_submit="onSubmit" :items="[
     { lp: ['姓名', 'name'] },
     { lp: ['地址', 'address'], rule: { required: true } },
     { lp: ['年龄', 'age'], type: 'slider' },
@@ -23,7 +23,8 @@ import Form from 'el-form-render/naive-ui'
     { lp: ['爱好', 'like'], type: 'checks', options: ['CODE', 'LOL'] },
   ]">
     <n-form-item label=' '>
-      <n-button type="primary" @click="$refs.form.validate()">Submit</n-button>
+      <n-button type="primary" attr-type="submit">Submit</n-button>
+      <n-button class="ml-3" attr-type="reset">Reset</n-button>
     </n-form-item>
 
     <n-form-item label=' '>
@@ -38,6 +39,10 @@ import { ref } from 'vue'
 import Form from 'el-form-render/naive-ui'
 
 const model = ref({})
+
+function onSubmit() {
+  alert('Success')
+}
 </script>
 ```
 

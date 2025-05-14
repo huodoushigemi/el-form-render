@@ -11,6 +11,7 @@ export default defineConfig({
       'el-form-render/naive-ui': path.join(cwd, '/src/ui/naive-ui'),
       'el-form-render/antdv': path.join(cwd, '/src/ui/antdv'),
       'el-form-render/vant': path.join(cwd, '/src/ui/vant'),
+      'el-form-render/vuetify': path.join(cwd, '/src/ui/vuetify'),
       'el-form-render': path.join(cwd, '/src/index'),
     }
   },

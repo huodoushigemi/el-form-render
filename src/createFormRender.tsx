@@ -3,6 +3,7 @@ import { objectPick, reactiveComputed, toReactive } from '@vueuse/core'
 import { createRender } from '@el-lowcode/render'
 import { type Obj, unFn, useTransformer } from './utils'
 import { type Item, formItemRenderPropsBase } from './props'
+import { object } from 'zod'
 
 type CreateFormRenderOptions<F, FI> = {
   Form: any
@@ -55,7 +56,7 @@ export function createFormRender<F extends Obj, FI extends Obj>({ Form, formName
   const FormItemRender = defineComponent({
     props: formItemRenderProps as any,
     name: formItemName,
-    setup(props: Item, { slots }) {
+    setup(props: Item, { attrs, slots }) {
       const form = inject(formRenderContextKey)
       const model = reactiveComputed(() => form?.model || reactive({}))
 
@@ -64,21 +65,13 @@ export function createFormRender<F extends Obj, FI extends Obj>({ Form, formName
       return () => {
         const itemProps = {
           ...objectPick(props, formItemKs),
+          // ...props,
+          lp: void 0,
           [_fields.label]: _label(props),
           [_fields.prop]: _prop(props),
           [_fields.rules]: _rules(props, model),
           '.__transformer': transformer
         }
-        const elProps = mergeProps(
-          {
-            [unFn(_fields.modelValue, props)]: transformer.get(),
-            [`onUpdate:${unFn(_fields.modelValue, props)}`]: transformer.set
-          },
-          {
-            ...(props.el || {}),
-            disabled: unFn(props.el?.disabled, model)
-          }
-        )
         
         return !unFn(props.hide, model)
           ? (
@@ -87,9 +80,22 @@ export function createFormRender<F extends Obj, FI extends Obj>({ Form, formName
                 ...slots,
                 default: undefined,
                 [_fields.inputSlot]: () => {
+                  const elProps = mergeProps(
+                    {
+                      modelValue: transformer.get(),
+                      'onUpdate:modelValue': transformer.set,
+                      [unFn(_fields.modelValue, props)]: transformer.get(),
+                      [`onUpdate:${unFn(_fields.modelValue, props)}`]: transformer.set
+                    },
+                    {
+                      ...(props.el || {}),
+                      disabled: unFn(props.el?.disabled, model)
+                    }
+                  )
+
                   const vnode = renderSlot(slots, 'default')
                   if (vnode.children![0]) vnode.children![0].props = Object.assign(elProps, vnode.children![0].props)
-                  else vnode.children![0] ??= Input({ ...props, el: elProps })
+                  else vnode.children![0] ??= Input({ ...props, ...itemProps, el: elProps }, { attrs })
                   return vnode
                 }
               }}
@@ -104,7 +110,7 @@ export function createFormRender<F extends Obj, FI extends Obj>({ Form, formName
   
   const _formRenderProps = {
     model: Object,
-    items: Array
+    items: Array,
   }
   const formRenderProps = {
     ...formProps,
@@ -114,7 +120,7 @@ export function createFormRender<F extends Obj, FI extends Obj>({ Form, formName
   const FormRender = defineComponent({
     name: formName,
     props: formRenderProps,
-    setup(props: ExtractPropTypes<typeof _formRenderProps>, { attrs, slots, expose }) {
+    setup(props: ExtractPropTypes<typeof _formRenderProps>, { attrs, emit, slots, expose }) {
       const _FormItemRender = createRender({
         defaultIs: (item, { slots }) => (
           <FormItemRender {...item}>{{ default: slots[`$${_prop(item)}`] ?? slots.default }}</FormItemRender>
@@ -126,8 +132,28 @@ export function createFormRender<F extends Obj, FI extends Obj>({ Form, formName
 
       provide(formRenderContextKey, props)
 
+      const initialModel = JSON.stringify(props.model)
+
+      async function submit(e) {
+        if (!attrs.on_submit) return
+        e.preventDefault?.()
+        await formRef.value.validate?.()
+        emit('_submit', props.model)
+      }
+
+      function reset() {
+        formRef.value.reset?.()
+        formRef.value.resetFields?.()
+        formRef.value.restoreValidation?.()
+        formRef.value.resetValidation?.()
+        if (props.model) {
+          Object.keys(props.model).forEach(k => props.model![k] = void 0)
+          Object.assign(props.model, JSON.parse(initialModel || '{}'))
+        }
+      }
+
       return () => (
-        <Form ref={formRef} {...{...props, ...attrs}}>
+        <Form ref={formRef} {...{...props, ...attrs, items: void 0, on_submit: void 0 }} onSubmit={submit} onReset={reset}>
           {props.items?.map((item: any) => (
             <_FormItemRender {...item} key={_prop(item)} />
           ))}

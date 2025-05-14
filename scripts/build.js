@@ -13,6 +13,7 @@ const input = {
   'ui/naive-ui': 'src/ui/naive-ui',
   'ui/antdv': 'src/ui/antdv',
   'ui/vant': 'src/ui/vant',
+  'ui/vuetify': 'src/ui/vuetify',
 }
 
 const exts = {

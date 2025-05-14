@@ -14,7 +14,7 @@ import Form from 'el-form-render/antdv'
 
 ```vue preview
 <template>
-  <Form ref="form" :model="model" :label-col="{ span: 2 }" @finish="onFinish" :items="[
+  <Form :model="model" :label-col="{ span: 2 }" @finish="onSubmit" :items="[
     { lp: ['姓名', 'name'] },
     { lp: ['地址', 'address'], required: true },
     { lp: ['年龄', 'age'], type: 'slider' },
@@ -25,7 +25,7 @@ import Form from 'el-form-render/antdv'
   ]">
     <a-form-item :wrapper-col="{ offset: 2 }">
       <a-button type="primary" html-type="submit">Submit</a-button>
-      <a-button @click="$refs.form.resetFields()">Reset</a-button>
+      <a-button html-type="reset">Reset</a-button>
     </a-form-item>
 
     <a-form-item :wrapper-col="{ offset: 2 }">
@@ -40,7 +40,7 @@ import Form from 'el-form-render/antdv'
 
 const model = ref({})
 
-function onFinish() {
+function onSubmit() {
   alert('Success')
 }
 </script>

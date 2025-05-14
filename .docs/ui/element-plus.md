@@ -12,7 +12,7 @@ import Form from 'el-form-render/element-plus'
 
 ```vue preview
 <template>
-  <Form ref="form" :model="model" label-width="60px" @submit.prevent="onSubmit" :items="[
+  <Form :model="model" label-width="60px" @_submit="onSubmit" :items="[
     { lp: ['姓名', 'name'] },
     { lp: ['地址', 'address'], required: true },
     { lp: ['年龄', 'age'], type: 'slider' },
@@ -23,7 +23,7 @@ import Form from 'el-form-render/element-plus'
   ]">
     <el-form-item>
       <el-button type="primary" native-type="submit">Submit</el-button>
-      <el-button @click="$refs.form.resetFields()">Reset</el-button>
+      <el-button native-type="reset">Reset</el-button>
     </el-form-item>
 
     <el-form-item>
@@ -38,10 +38,8 @@ import { ref } from 'vue'
 import Form from 'el-form-render/element-plus'
 
 const model = ref({})
-const form = ref()
 
 async function onSubmit() {
-  await form.value.validate()
   alert('Success')
 }
 </script>

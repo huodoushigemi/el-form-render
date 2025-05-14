@@ -53,6 +53,7 @@ export default defineConfig({
           { text: 'naive-ui', link: '/ui/naive-ui' },
           { text: 'antdv', link: '/ui/antdv' },
           { text: 'vant', link: '/ui/vant' },
+          { text: 'vuetify', link: '/ui/vuetify' },
         ]
       },
     ],
@@ -70,7 +71,7 @@ export default defineConfig({
       alias: rootConfig.resolve?.alias
     },
     ssr: {
-      noExternal: ['vite-plugin-markdown-preview', 'naive-ui'],
+      noExternal: ['vite-plugin-markdown-preview', 'naive-ui', 'vuetify'],
     },
     plugins: [
       Jsx(),

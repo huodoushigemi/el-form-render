@@ -14,7 +14,7 @@ import Form from 'el-form-render/vant'
 
 ```vue preview
 <template>
-  <Form class="max-w[350px] bg-#909090 p1" :model="model" @submit="onFinish" :items="[
+  <Form class="max-w[350px] bg-#909090 p1" :model="model" @_submit="onSubmit" :items="[
     { is: 'van-cell-group', class: 'mt-4!', inset: true, children: [
       { lp: ['开关', 'onoff'], type: 'switch' },
       { lp: ['是否', 'is'], type: 'checkbox', el: { shape: 'square' } },
@@ -37,7 +37,7 @@ import Form from 'el-form-render/vant'
 
 <script setup>
 import { ref } from 'vue'
-import Form, { Item } from 'el-form-render/vant'
+import Form from 'el-form-render/vant'
 
 const model = ref({
   slider: 50,
@@ -45,7 +45,7 @@ const model = ref({
   sex: '男'
 })
 
-function onFinish() {
+function onSubmit() {
   alert('Success')
 }
 </script>

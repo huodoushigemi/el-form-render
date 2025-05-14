@@ -1,5 +1,5 @@
 import { type Ref, ref, toRaw, toValue } from 'vue'
-import { isArray, camelize, isPromise, isString } from '@vue/shared'
+import { isArray, camelize, isPromise, isObject } from '@vue/shared'
 import type { Item, Item0, NormalizedOpt, Opt } from './props'
 
 const solveLP = (lp: Item['lp']) => isArray(lp) ? lp : (lp ? [lp, camelize(lp!)] : [])
@@ -35,7 +35,11 @@ export const solveOptions = (opts?: Item['options']) => {
 
 export const showOpt = (opt?: NormalizedOpt) => opt?.label ?? opt?.value
 
-const normalizeOpt = (opt: Opt): NormalizedOpt => isString(opt) ? ({ label: opt, value: opt }) : isArray(opt) ? { label: opt[0], value: opt[1] } : opt
+const normalizeOpt = (opt: Opt): NormalizedOpt => (
+  isArray(opt) ? { label: opt[0], value: opt[1] } :
+  isObject(opt) ? opt :
+  { label: opt, value: opt }
+)
 
 export const useTransformer = (_model, _prop, opt: Pick<Item0, 'defaultValue' | 'displayValue' | 'get' | 'set' | 'out'> & { untrackedGet?: boolean; silentSet?(v, model): any } = {}) => {
   const ret = {

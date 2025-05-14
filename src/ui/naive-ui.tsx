@@ -4,6 +4,12 @@ import { NForm, NFormItem, formProps, formItemProps } from 'naive-ui'
 import { createFormRender } from '../createFormRender'
 import { solveOptions } from '../utils'
 
+const alias = {
+  'input-tag': 'dynamic-tags',
+  'checks': 'checkbox-group',
+  'radios': 'radio-group',
+}
+
 const { FormRender, FormItemRender } = createFormRender({
   Form: NForm,
   formName: 'NFormRender',
@@ -12,7 +18,8 @@ const { FormRender, FormItemRender } = createFormRender({
   formItemName: 'NFormItemRender',
   formItemProps: formItemProps,
   Input: (item) => {
-    const { type, el } = item
+    const { el } = item
+    const type = alias[item.type] || item.type
     const is = el?.is || (`n-${type || 'input'}`)
     if (!item.options) {
       return createVNode(resolveDynamicComponent(is), el)
@@ -26,7 +33,7 @@ const { FormRender, FormItemRender } = createFormRender({
         <n-select {...el} options={options} />
       )
     }
-    else if (type == 'checkbox-group' || type == 'checks') {
+    else if (type == 'checkbox-group') {
       return (
         <n-checkbox-group {...el}>
           {options.map(opt => (
@@ -35,7 +42,7 @@ const { FormRender, FormItemRender } = createFormRender({
         </n-checkbox-group>
       )
     }
-    else if (type == 'radio-group' || type == 'radios') {
+    else if (type == 'radio-group') {
       return (
         <n-radio-group {...el}>
           {options.map(opt => (
@@ -45,6 +52,9 @@ const { FormRender, FormItemRender } = createFormRender({
           ))}
         </n-radio-group>
       )
+    }
+    else {
+      return createVNode(resolveDynamicComponent(is), { options, ...el })
     }
   },
   fields: {
