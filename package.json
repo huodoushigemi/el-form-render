@@ -1,6 +1,6 @@
 {
   "name": "el-form-render",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "type": "module",
   "main": "index.mjs",
   "module": "index.mjs",
@@ -28,6 +28,7 @@
     "./naive-ui": "./ui/naive-ui.mjs",
     "./antdv": "./ui/antdv.mjs",
     "./vant": "./ui/vant.mjs",
+    "./vuetify": "./ui/vuetify.mjs",
     "./*": "./*"
   },
   "dependencies": {

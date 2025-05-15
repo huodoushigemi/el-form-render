@@ -2,7 +2,9 @@ import path from 'path'
 import { build } from 'vite'
 import fs from 'fs'
 import fse from 'fs-extra/esm'
+
 import pkg from '../package.json' with { type: 'json' }
+const external = Object.keys({ ...pkg.dependencies, ...pkg.peerDependencies, ...pkg.devDependencies })
 
 const cwd = process.cwd()
 
@@ -27,13 +29,13 @@ await build({
     outDir: 'dist',
     lib: {
       entry: input,
-      formats: ['cjs'],
+      formats: ['es'],
       fileName: (format, e) => `${e}.${exts[format] ?? 'js'}`,
     },
     // minify: true,
     rollupOptions: {
       // treeshake: 'smallest',
-      external: Object.keys({ ...pkg.dependencies, ...pkg.peerDependencies, ...pkg.devDependencies })
+      external: source => external.includes(source) || external.includes(source.split('/')[0])
     }
   },
 })
