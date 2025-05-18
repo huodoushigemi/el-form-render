@@ -109,7 +109,7 @@ export function createFormRender<F extends Obj, FI extends Obj>({ Form, formName
   // FormRender ========================================================================================================
   
   const _formRenderProps = {
-    model: Object,
+    model: { type: Object, default: () => reactive({}) },
     items: Array,
   }
   const formRenderProps = {

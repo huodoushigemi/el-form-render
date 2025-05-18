@@ -16,6 +16,7 @@ export const formItemRenderPropsBase = {
   is: null,
   lp: [String, Array] as PropType<string | [string, string]>,
   type: String,
+  defv: null,
   defaultValue: null,
   displayValue: null,
   hide: [Boolean, Function] as PropType<boolean | ((row) => boolean)>,

@@ -41,15 +41,21 @@ const normalizeOpt = (opt: Opt): NormalizedOpt => (
   { label: opt, value: opt }
 )
 
-export const useTransformer = (_model, _prop, opt: Pick<Item0, 'defaultValue' | 'displayValue' | 'get' | 'set' | 'out'> & { untrackedGet?: boolean; silentSet?(v, model): any } = {}) => {
+export const useTransformer = (
+  _model,
+  _prop,
+  opt: Pick<Item0, 'defv' | 'defaultValue' | 'displayValue' | 'get' | 'set' | 'out'> & { untrackedGet?: boolean; silentSet?(v, model): any } = {}
+) => {
   const ret = {
     get() {
       const model = toValue(_model), prop = toValue(_prop)
       if (prop == null) return
       let v = get(opt.untrackedGet ? toRaw(model) : model, prop)
+      const defv = opt.defaultValue ?? opt.defv
+      const disv = opt.displayValue
       if (opt.get) v = opt.get(v, model)
-      if (opt.defaultValue !== undefined && (v === undefined || v === '')) set(model, prop, v = unFn(opt.defaultValue))
-      if (opt.displayValue !== undefined && (v === undefined || v === '')) v = unFn(opt.displayValue)
+      if (defv !== undefined && (v === undefined || v === '')) set(model, prop, v = unFn(defv))
+      if (disv !== undefined && (v === undefined || v === '')) v = unFn(disv)
       return v
     },
     set(v) {
