@@ -176,3 +176,35 @@ test('array', () => {
     { children: [{ is: 'div', children: [{ lp: ['a', 'objs.0.a'], type: 'input' }] }] },
   ])
 })
+
+test('parse-schema', () => {
+  const items = fromSchema({ posts: [{}] }, {
+    definitions: {
+      User: {
+        type: 'object',
+        properties: {
+          name: { title: '名称', type: 'string' },
+          tags: { title: '标签', type: 'array', items: { type: 'string' } },
+          posts: { title: '文章列表', type: 'array', items: { $ref: '#/definitions/Post', properties: { title: { maxLength: 10 } } } },
+        }
+      },
+      Post: {
+        type: 'object',
+        properties: {
+          title: { title: '标题', type: 'string', maxLength: 20 },
+          content: { title: '内容', type: 'string' },
+          date: { title: '日期', type: 'string' },
+        }
+      },
+    },
+    $ref: '#/definitions/User'
+  })
+
+  expect(items).toMatchObject([
+    { lp: ['名称', 'name'] },
+    { lp: ['标签', 'tags'] },
+    { lp: ['文章列表', 'posts'], children: [
+      { is: 'div', lp: ['0', 'posts.0'], model: {}, children: [{ lp: ['标题', 'posts.0.title'], el: { maxlength: 10 } }, {}, {}] }
+    ] },
+  ])
+})

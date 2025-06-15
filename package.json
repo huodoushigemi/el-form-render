@@ -1,6 +1,6 @@
 {
   "name": "el-form-render",
-  "version": "1.0.8",
+  "version": "1.1.1",
   "type": "module",
   "main": "index.mjs",
   "module": "index.mjs",
@@ -13,7 +13,7 @@
   },
   "homepage": "https://huodoushigemi.github.io/el-form-render/",
   "scripts": {
-    "dev": "vite",
+    "dev": "pnpm docs:dev",
     "build": "node ./scripts/build.js",
     "publish": "cd dist && npm publish --access public --registry https://registry.npmjs.org/",
     "docs:dev": "vitepress dev .docs",
@@ -31,22 +31,20 @@
     "./vuetify": "./ui/vuetify.mjs",
     "./*": "./*"
   },
-  "dependencies": {
-    "@el-lowcode/render": "^1.0.4",
-    "@vue/shared": "^3.*",
-    "@vueuse/core": "^13.0.0",
-    "es-toolkit": "^1.37.2"
-  },
   "peerDependencies": {
     "vue": "^3.*"
   },
   "devDependencies": {
+    "@el-lowcode/render": "^1.0.4",
     "@types/json-schema": "^7.0.15",
     "@vitejs/plugin-vue": "^5.2.1",
     "@vitejs/plugin-vue-jsx": "^4.1.2",
+    "@vue/shared": "^3.5.13",
     "@vue/tsconfig": "^0.7.0",
+    "@vueuse/core": "^13.1.0",
     "ant-design-vue": "^4.2.6",
     "element-plus": "^2.9.9",
+    "es-toolkit": "^1.37.2",
     "fs-extra": "^11.3.0",
     "naive-ui": "^2.41.0",
     "sass-embedded": "^1.86.0",

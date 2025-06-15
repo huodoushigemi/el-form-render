@@ -1,8 +1,13 @@
-import { createVNode, resolveDynamicComponent } from 'vue'
+import { createVNode, defineComponent, provide, resolveDynamicComponent } from 'vue'
 import { ElForm, ElFormItem, formItemProps, formProps } from 'element-plus'
 
 import { createFormRender } from '../createFormRender'
 import { showOpt, solveOptions } from '../utils'
+
+const alias = {
+  'checks': 'checkbox-group',
+  'radios': 'radio-group',
+}
 
 const { FormRender, FormItemRender, formRenderProps, formItemRenderProps } = createFormRender({
   Form: ElForm,
@@ -12,7 +17,8 @@ const { FormRender, FormItemRender, formRenderProps, formItemRenderProps } = cre
   formItemName: 'ElFormItemRender',
   formItemProps: formItemProps,
   Input: (item) => {
-    const { type, el } = item
+    const { el } = item
+    const type = alias[item.type] || item.type
     const is = el?.is || (`el-${type || 'input'}`)
     if (!item.options) {
       return createVNode(resolveDynamicComponent(is), el)
@@ -25,7 +31,7 @@ const { FormRender, FormItemRender, formRenderProps, formItemRenderProps } = cre
         </el-select>
       )
     }
-    else if (type == 'checkbox-group' || is == 'ElCheckboxGroup' || type == 'checks') {
+    else if (type == 'checkbox-group' || is == 'ElCheckboxGroup') {
       return (
         <el-checkbox-group {...el}>
           {options.map(opt => (
@@ -36,7 +42,7 @@ const { FormRender, FormItemRender, formRenderProps, formItemRenderProps } = cre
         </el-checkbox-group>
       )
     }
-    else if (type == 'radio-group' || is == 'ElRadioGroup' || type == 'radios') {
+    else if (type == 'radio-group' || is == 'ElRadioGroup') {
       return (
         <el-radio-group {...el}>
           {options.map(opt => (

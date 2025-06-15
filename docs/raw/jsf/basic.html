@@ -6,14 +6,14 @@
     <title>el-form-render</title>
     <meta name="description" content="🚀 AI 友好型 JSON 渲染表单，无限扩展">
     <meta name="generator" content="VitePress v1.6.3">
-    <link rel="preload stylesheet" href="/el-form-render/assets/style.Cq5Rn13u.css" as="style">
+    <link rel="preload stylesheet" href="/el-form-render/assets/style.DNpP-Gun.css" as="style">
     <link rel="preload stylesheet" href="/el-form-render/vp-icons.css" as="style">
     
-    <script type="module" src="/el-form-render/assets/app.BVWXovlh.js"></script>
+    <script type="module" src="/el-form-render/assets/app.Dn-nuBic.js"></script>
     <link rel="preload" href="/el-form-render/assets/inter-roman-latin.Di8DUHzh.woff2" as="font" type="font/woff2" crossorigin="">
-    <link rel="modulepreload" href="/el-form-render/assets/chunks/theme.0mm1nXGl.js">
+    <link rel="modulepreload" href="/el-form-render/assets/chunks/theme.I9pp6g2o.js">
     <link rel="modulepreload" href="/el-form-render/assets/chunks/framework.C9-9fwSE.js">
-    <link rel="modulepreload" href="/el-form-render/assets/raw_jsf_basic.md.DwtwbI-I.lean.js">
+    <link rel="modulepreload" href="/el-form-render/assets/raw_jsf_basic.md.Cfxkl3B_.lean.js">
     <script id="check-dark-mode">(()=>{const e=localStorage.getItem("vitepress-theme-appearance")||"auto",a=window.matchMedia("(prefers-color-scheme: dark)").matches;(!e||e==="auto"?a:e==="dark")&&document.documentElement.classList.add("dark")})();</script>
     <script id="check-mac-os">document.documentElement.classList.toggle("mac",/Mac|iPhone|iPod|iPad/i.test(navigator.platform));</script>
   </head>
@@ -168,18 +168,13 @@ import Form, { schema2items } from &#39;el-form-render/element-plus&#39;
 
 const model = ref({})
 
-// 自定义布局容器
-const Card = ({ label }, { slots }) =&gt;(
-  h(ElCard, { header: label, class: &#39;mb4&#39;, bodyClass: &#39;grid grid-cols-2 gap-x-4 items-start&#39; }, slots)
-)
-
 const items = schema2items(model, {
   type: &#39;object&#39;,
   properties: {
     name: { title: &#39;名称&#39;, type: &#39;string&#39; },
     age: { title: &#39;年龄&#39;, type: &#39;number&#39;, minimum: 0 },
     like: { title: &#39;爱好&#39;, type: &#39;array&#39;, enum: [&#39;Code&#39;, &#39;Game&#39;], ui: { type: &#39;checks&#39; } },
-    resume: { title: &#39;简历&#39;, type: &#39;object&#39;, ui: { is: Card }, properties: {
+    resume: { title: &#39;简历&#39;, type: &#39;object&#39;, &#39;ui:bodyClass&#39;: &#39;grid cols-2 gap-x-4 items-start&#39;, properties: {
       year: { title: &#39;工龄&#39;, type: &#39;number&#39;, minimum: 0 },
       email: { title: &#39;邮件&#39;, type: &#39;string&#39; },
       job: { title: &#39;职位&#39;, type: &#39;string&#39;, enum: [&#39;程序员&#39;, &#39;设计师&#39;, &#39;产品经理&#39;] },
@@ -218,14 +213,59 @@ const items = schema2items(model, {
   type: &#39;object&#39;,
   properties: {
     str1_arr: { type: &#39;array&#39;, items: { type: &#39;string&#39; } },
-    str2_arr: { type: &#39;array&#39;, items: { type: &#39;string&#39; }, ui: { type: &#39;input-tag&#39; } },
+    str2_arr: { type: &#39;array&#39;, items: { type: &#39;string&#39; }, &#39;ui:type&#39;: &#39;input-tag&#39; },
   }
 })
+&lt;/script&gt;
+```
 
-console.log(items)
+表格布局
+
+```vue preview
+&lt;template&gt;
+  &lt;Form ref=&quot;form&quot; :model=&quot;model&quot; :items=&quot;items&quot; @_submit=&quot;&quot;&gt;
+    &lt;el-form-item&gt;
+      &lt;code block&gt;&lt;pre&gt;model: {{ JSON.stringify(model, null, &#39;  &#39;) }}&lt;/pre&gt;&lt;/code&gt;
+    &lt;/el-form-item&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;
+
+&lt;script setup lang=&#39;jsx&#39;&gt;
+import { ref, provide, defineComponent } from &#39;vue&#39;
+import Form, { schema2items } from &#39;el-form-render/element-plus&#39;
+
+const model = ref({
+  tags: [&#39;编程&#39;, &#39;JavaScript&#39;, &#39;Vue&#39;],
+  posts: [{}, {}]
+})
+
+const opts = { enum: [true, false], enumName: [&#39;true&#39;, &#39;true&#39;] }
+
+const items = schema2items(model, {
+  definitions: {
+    User: {
+      type: &#39;object&#39;,
+      properties: {
+        name: { title: &#39;名称&#39;, type: &#39;string&#39; },
+        email: { title: &#39;邮件&#39;, type: &#39;string&#39; },
+        tags: { title: &#39;标签&#39;, type: &#39;array&#39;, items: { type: &#39;string&#39; }, &#39;ui:type&#39;: &#39;input-tag&#39; },
+        posts: { title: &#39;文章列表&#39;, type: &#39;array&#39;, items: { $ref: &#39;#/definitions/Post&#39; } },
+      }
+    },
+    Post: {
+      type: &#39;object&#39;,
+      properties: {
+        title: { title: &#39;标题&#39;, type: &#39;string&#39; },
+        content: { title: &#39;内容&#39;, type: &#39;string&#39; },
+        date: { title: &#39;日期&#39;, type: &#39;string&#39; },
+      }
+    },
+  },
+  $ref: &#39;#/definitions/User&#39;
+})
 &lt;/script&gt;
 ```</pre></div></div></main><footer class="VPDocFooter" data-v-50a88567 data-v-90ca3f0f><!--[--><!--]--><!----><nav class="prev-next" aria-labelledby="doc-footer-aria-label" data-v-90ca3f0f><span class="visually-hidden" id="doc-footer-aria-label" data-v-90ca3f0f>Pager</span><div class="pager" data-v-90ca3f0f><!----></div><div class="pager" data-v-90ca3f0f><a class="VPLink link pager-link next" href="/el-form-render/el-form-render/quickstart.html" data-v-90ca3f0f><!--[--><span class="desc" data-v-90ca3f0f>Next page</span><span class="title" data-v-90ca3f0f>快速开始</span><!--]--></a></div></nav></footer><!--[--><!--]--></div></div></div><!--[--><!--]--></div></div><!----><!--[--><!--]--></div></div>
-    <script>window.__VP_HASH_MAP__=JSON.parse("{\"api-examples.md\":\"CaSJfpYj\",\"docs_doc.md\":\"BagrALMj\",\"docs_docs.md\":\"CROCRJTH\",\"docs_intro.md\":\"Ck4JJ4kx\",\"el-form-render_basic.md\":\"Bu_-DkId\",\"el-form-render_is.md\":\"D5jyrrVh\",\"el-form-render_layout.md\":\"DVWZlouy\",\"el-form-render_linkage.md\":\"DZvqopEJ\",\"el-form-render_options.md\":\"D429-4oL\",\"el-form-render_quickstart.md\":\"BP3fmDSy\",\"index.md\":\"7yu3eiUu\",\"jsf_basic.md\":\"nQiCvB6-\",\"markdown-examples.md\":\"DuRFOrQh\",\"raw_api-examples.md\":\"RehIcfAL\",\"raw_docs_doc.md\":\"C8aJJB4z\",\"raw_docs_docs.md\":\"m_7Gg5AW\",\"raw_docs_intro.md\":\"DY3rq8LN\",\"raw_el-form-render_basic.md\":\"Dq7dciAW\",\"raw_el-form-render_is.md\":\"BM-dCemx\",\"raw_el-form-render_layout.md\":\"-BXbW9Yd\",\"raw_el-form-render_linkage.md\":\"BKQ1Ahrh\",\"raw_el-form-render_options.md\":\"DbHbcl8K\",\"raw_el-form-render_quickstart.md\":\"DB8IUDN-\",\"raw_index.md\":\"BFswSwej\",\"raw_jsf_basic.md\":\"DwtwbI-I\",\"raw_markdown-examples.md\":\"DkxJo6TU\",\"raw_ui_antdv.md\":\"DQUqnZjO\",\"raw_ui_element-plus.md\":\"BX_SaRq1\",\"raw_ui_naive-ui.md\":\"DSiLr-07\",\"raw_ui_vant.md\":\"BcLknyzb\",\"raw_ui_vuetify.md\":\"DWiGBdcR\",\"ui_antdv.md\":\"as07EcDk\",\"ui_element-plus.md\":\"BXIq_X64\",\"ui_naive-ui.md\":\"C-AS5ZNf\",\"ui_vant.md\":\"Cclu5TRQ\",\"ui_vuetify.md\":\"BAH5Z1Sf\"}");window.__VP_SITE_DATA__=JSON.parse("{\"lang\":\"en-US\",\"dir\":\"ltr\",\"title\":\"el-form-render\",\"description\":\"🚀 AI 友好型 JSON 渲染表单，无限扩展\",\"base\":\"/el-form-render/\",\"head\":[],\"router\":{\"prefetchLinks\":true},\"appearance\":true,\"themeConfig\":{\"nav\":[{\"text\":\"Home\",\"link\":\"/\"},{\"text\":\"Components\",\"link\":\"/el-form-render/quickstart\"}],\"sidebar\":[{\"text\":\"el-form-render\",\"items\":[{\"text\":\"快速开始\",\"link\":\"/el-form-render/quickstart\"},{\"text\":\"基础使用\",\"link\":\"/el-form-render/basic\"},{\"text\":\"组件联动\",\"link\":\"/el-form-render/linkage\"},{\"text\":\"options 属性\",\"link\":\"/el-form-render/options\"},{\"text\":\"自定义组件\",\"link\":\"/el-form-render/is\"},{\"text\":\"复杂布局\",\"link\":\"/el-form-render/layout\"}]},{\"text\":\"JSON Schema\",\"items\":[{\"text\":\"基础使用\",\"link\":\"/jsf/basic\"}]},{\"text\":\"文档\",\"items\":[{\"text\":\"cursor\",\"link\":\"/docs/docs\"}]},{\"text\":\"UI 库\",\"items\":[{\"text\":\"element-plus\",\"link\":\"/ui/element-plus\"},{\"text\":\"naive-ui\",\"link\":\"/ui/naive-ui\"},{\"text\":\"antdv\",\"link\":\"/ui/antdv\"},{\"text\":\"vant\",\"link\":\"/ui/vant\"},{\"text\":\"vuetify\",\"link\":\"/ui/vuetify\"}]}],\"socialLinks\":[{\"icon\":\"github\",\"link\":\"https://github.com/huodoushigemi/el-form-render\"}]},\"locales\":{},\"scrollOffset\":134,\"cleanUrls\":false}");</script>
+    <script>window.__VP_HASH_MAP__=JSON.parse("{\"api-examples.md\":\"DjWfa3k0\",\"docs_doc.md\":\"BagrALMj\",\"docs_docs.md\":\"CROCRJTH\",\"docs_intro.md\":\"Ck4JJ4kx\",\"el-form-render_basic.md\":\"BKqQmPLz\",\"el-form-render_is.md\":\"CoPgXEkA\",\"el-form-render_layout.md\":\"OQebvfCG\",\"el-form-render_linkage.md\":\"DBkFTKJO\",\"el-form-render_options.md\":\"CQEbInVr\",\"el-form-render_quickstart.md\":\"BbCWwxxq\",\"index.md\":\"Dhc8KPwA\",\"jsf_basic.md\":\"rg6nQFcR\",\"markdown-examples.md\":\"DuRFOrQh\",\"raw_api-examples.md\":\"RehIcfAL\",\"raw_docs_doc.md\":\"C8aJJB4z\",\"raw_docs_docs.md\":\"m_7Gg5AW\",\"raw_docs_intro.md\":\"DY3rq8LN\",\"raw_el-form-render_basic.md\":\"Dq7dciAW\",\"raw_el-form-render_is.md\":\"BM-dCemx\",\"raw_el-form-render_layout.md\":\"-BXbW9Yd\",\"raw_el-form-render_linkage.md\":\"BKQ1Ahrh\",\"raw_el-form-render_options.md\":\"DbHbcl8K\",\"raw_el-form-render_quickstart.md\":\"DB8IUDN-\",\"raw_index.md\":\"BAFLizNO\",\"raw_jsf_basic.md\":\"Cfxkl3B_\",\"raw_markdown-examples.md\":\"DkxJo6TU\",\"raw_ui_antdv.md\":\"DQUqnZjO\",\"raw_ui_element-plus.md\":\"DOpJsSJS\",\"raw_ui_naive-ui.md\":\"DSiLr-07\",\"raw_ui_vant.md\":\"BcLknyzb\",\"raw_ui_vuetify.md\":\"DWiGBdcR\",\"ui_antdv.md\":\"6R_pdAMU\",\"ui_element-plus.md\":\"Dxno4m_U\",\"ui_naive-ui.md\":\"DIsb0wmE\",\"ui_vant.md\":\"CCfgeJgU\",\"ui_vuetify.md\":\"Bktfx8do\"}");window.__VP_SITE_DATA__=JSON.parse("{\"lang\":\"en-US\",\"dir\":\"ltr\",\"title\":\"el-form-render\",\"description\":\"🚀 AI 友好型 JSON 渲染表单，无限扩展\",\"base\":\"/el-form-render/\",\"head\":[],\"router\":{\"prefetchLinks\":true},\"appearance\":true,\"themeConfig\":{\"nav\":[{\"text\":\"Home\",\"link\":\"/\"},{\"text\":\"Components\",\"link\":\"/el-form-render/quickstart\"}],\"sidebar\":[{\"text\":\"el-form-render\",\"items\":[{\"text\":\"快速开始\",\"link\":\"/el-form-render/quickstart\"},{\"text\":\"基础使用\",\"link\":\"/el-form-render/basic\"},{\"text\":\"组件联动\",\"link\":\"/el-form-render/linkage\"},{\"text\":\"options 属性\",\"link\":\"/el-form-render/options\"},{\"text\":\"自定义组件\",\"link\":\"/el-form-render/is\"},{\"text\":\"复杂布局\",\"link\":\"/el-form-render/layout\"}]},{\"text\":\"JSON Schema\",\"items\":[{\"text\":\"基础使用\",\"link\":\"/jsf/basic\"}]},{\"text\":\"文档\",\"items\":[{\"text\":\"cursor\",\"link\":\"/docs/docs\"}]},{\"text\":\"UI 库\",\"items\":[{\"text\":\"element-plus\",\"link\":\"/ui/element-plus\"},{\"text\":\"naive-ui\",\"link\":\"/ui/naive-ui\"},{\"text\":\"antdv\",\"link\":\"/ui/antdv\"},{\"text\":\"vant\",\"link\":\"/ui/vant\"},{\"text\":\"vuetify\",\"link\":\"/ui/vuetify\"}]}],\"socialLinks\":[{\"icon\":\"github\",\"link\":\"https://github.com/huodoushigemi/el-form-render\"}]},\"locales\":{},\"scrollOffset\":134,\"cleanUrls\":false}");</script>
     
   </body>
 </html>

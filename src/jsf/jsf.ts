@@ -1,68 +1,79 @@
 import { toValue } from 'vue'
-import { isArray } from '@vue/shared'
 import type { JSONSchema7 } from 'json-schema'
 import { inRange, isPlainObject, merge, zip } from 'es-toolkit'
-import { get, unFn, type Obj } from '../utils'
+import { assignInWith, get, isObject, set } from 'es-toolkit/compat'
+import { unFn, type Obj } from '../utils'
 
 const define = (o, k, cb) => Object.defineProperty(o, k, { get: cb, enumerable: true })
+
+export function createJSF(ctx) {
+  return (model: Obj, schema: JSONSchema7) => fromSchema2(model, [schema], ctx).children
+}
 
 export function fromSchema(model: Obj, schema: JSONSchema7) {
   return fromSchema2(model, [schema], {}).children
 }
 
 function fromSchema2(model: Obj, queue: JSONSchema7[], ctx, path?: string) {
-  const val = k => (o => k ? o[k] : o)(toValue(model))
+  const val = k => (o => k ? get(o, k) : o)(toValue(model))
   
-  let e = parseSchema(queue)
+  const js = parseSchema(queue)
+
+  for (const k in js) {
+    k.includes(':') && set(js, k.split(':'), js[k])
+  }
   
   const prop = path?.split('.').pop() || ''
-  let item: any = merge({
-    label: e.title ?? prop,
-    lp: [e.title ?? prop, path],
+  const item: any = merge({
+    label: js.title ?? prop,
+    prop: path,
+    lp: [js.title ?? prop, path],
     rules: [],
-    el: {
-      name: path,
-      ...e['ui:el']
-    }
-  }, e['ui'] || {})
+    el: { name: path }
+  }, js['ui'] || {})
 
   // enum
-  if (e.enum) {
+  if (js.enum) {
     item.type ??= 'select'
-    item.options ??= e.enumName ? zip(e.enumName, e.enum) : e.enum
+    // @ts-ignore
+    item.options ??= js.enumName ? zip(js.enumName, js.enum) : js.enum
   }
 
-  switch (e.type) {
+  if (js.default !== void 0) {
+    item.defaultValue = js.default
+  }
+
+  switch (js.type) {
     case 'string':
       // todo e.format
       item.type ??= 'input'
       item.rules.push({
         type: 'string',
-        min: e.minLength,
-        max: e.maxLength,
-        pattern: e.pattern ? new RegExp(e.pattern) : void 0
+        min: js.minLength,
+        max: js.maxLength,
+        pattern: js.pattern ? new RegExp(js.pattern) : void 0
       })
       item.el = {
-        minlength: e.minLength,
-        maxlength: e.maxLength,
+        minlength: js.minLength,
+        maxlength: js.maxLength,
         ...item.el
       }
-      break;
+      break
       
     case 'integer':
     case 'number':
       item.type ??= 'input-number'
       item.rules.push({
-        type: e.type,
-        min: e.minimum,
-        max: e.maximum,
+        type: js.type,
+        min: js.minimum,
+        max: js.maximum,
       })
       item.el = {
-        min: e.minimum,
-        max: e.maximum,
+        min: js.minimum,
+        max: js.maximum,
         // todo
         // precision: e.type == 'integer' ? 
-        step: e.multipleOf,
+        step: js.multipleOf,
         ...item.el
       }
       break
@@ -76,24 +87,25 @@ function fromSchema2(model: Obj, queue: JSONSchema7[], ctx, path?: string) {
         // 
       }
       else {
-        item.is ??= 'div'
-        define(item, 'model', () => toValue(model))
+        // item.is ??= 'div'
+        item.is ??= ctx.SubForm
         let items = [] as any[]
-        for (const prop in e.properties) {
-          const e2 = e.properties[prop]
+        for (const prop in js.properties) {
+          const e2 = js.properties[prop]
           if (typeof e2 == 'boolean') continue
           const k = path ? `${path}.${prop}` : prop
           queue.push(e2)
           const item2 = fromSchema2(model, queue, ctx, k)
           queue.pop()
-          item2.required ??= e.required?.includes(prop)
+          items.push(item2)
+          item2.required ??= js.required?.includes(prop)
           // dependencies
-          if (e.dependencies) {
+          if (js.dependencies) {
             const vif = Object.getOwnPropertyDescriptor(item2, 'vIf')
             define(item2, 'vIf', () => {
               const _if = vif ? unFn(vif?.value ?? vif?.get?.()) : true
-              if (_if && !!e.dependencies?.[prop]) return true
-              const deps = Object.entries(e.dependencies!).filter(e => (e[1] as string[]).includes(prop))
+              if (_if && !!js.dependencies?.[prop]) return true
+              const deps = Object.entries(js.dependencies!).filter(e => (e[1] as string[]).includes(prop))
               if (!deps.length) return true
               return deps.some(e => val(e[0]) != null)
             })
@@ -101,67 +113,75 @@ function fromSchema2(model: Obj, queue: JSONSchema7[], ctx, path?: string) {
             define(item2, 'required', () => {
               const need = required ? required.value ?? required.get?.() : void 0
               if (need) return true
-              const o = (o => path ? get(o, path) : o)(toValue(model)) || {}
-              return Object.entries(e.dependencies!).some(([k, v]) => o[k] != null && (v as string[]).includes(prop))
+              const o = val(path) || {}
+              return Object.entries(js.dependencies!).some(([k, v]) => o[k] != null && (v as string[]).includes(prop))
             })
           }
-          items.push(item2)
         }
         // todo
         // e.if
         // e.then
+        define(item, 'model', () => toValue(model))
+        define(item, 'modelValue', () => val(path))
         item.children = items
       }
-      if (e.minProperties != null || e.maxProperties != null) {
+      if (js.minProperties != null || js.maxProperties != null) {
         item.rules.push({
-          validator: () => inRange(Object.keys(val(path)).length, e.minProperties ?? -Infinity, e.maxProperties ?? Infinity)
-            ? new Error(['minProperties', 'maxProperties'].map(k => `${e}: ${e[k]}`).join('\n'))
+          validator: () => inRange(Object.keys(val(path)).length, js.minProperties ?? -Infinity, js.maxProperties ?? Infinity)
+            ? new Error(['minProperties', 'maxProperties'].map(k => `${js}: ${js[k]}`).join('\n'))
             : true
         })
       }
       break
 
     case 'array':
+      // 自定义组件
       if (item.type || item.el?.is) {
-        Object.assign(item.el, { min: e.minItems, max: e.maxItems })
-        if (item.type == 'select') Object.assign(item.el, { multiple: true, multipleLimit: e.maxItems })
+        Object.assign(item.el, { min: js.minItems, max: js.maxItems, schema: js })
+        if (item.type == 'select') Object.assign(item.el, { multiple: true, multipleLimit: js.maxItems })
       }
-      else if (isArray(e.items)) {
-        // layout
-        item.is ??= 'div'
-        const items = [] as any[]
-        e.items.forEach((e2, i) => {
-          if (typeof e2 == 'boolean') return
-          const k = path ? `${path}.${i}` : i
-          queue.push(e2)
-          items.push(fromSchema2(model, queue, ctx, k as string))
-          queue.pop()
-        })
-        Object.assign(item, { min: e.minItems, max: e.maxItems })
-        item.children = items
-      }
-      else if (isPlainObject(e.items)) {
-        // layout
-        // item.is ??= 'div'
-        const schema = e.items
-        const queue2 = [...queue]
-        Object.assign(item, { min: e.minItems, max: e.maxItems })
+      else if (isPlainObject(js.items)) {
+        const _queue = [...queue, js.items as JSONSchema7]
+        js.items = parseSchema(_queue)
+
+        // object[]
+        if (js.items.type == 'object') item.is ??= ctx.SubTable
+        
+        Object.assign(item, { min: js.minItems, max: js.maxItems, schema: js })
+        define(item, 'model', () => toValue(model))
+        define(item, 'modelValue', () => val(path))
         define(item, 'children', () => {
           const items = [] as any[]
-          queue2.push(schema)
           val(path)?.forEach((_, i) => {
             const k = path ? `${path}.${i}` : i
-            items.push(fromSchema2(model, queue2, ctx, k as string))
+            const e = fromSchema2(model, _queue, ctx, k)
+            if (item.is == ctx.SubTable) e.is = 'div'
+            items.push(e)
           })
-          queue2.pop()
           return items
         })
       }
+      else if (Array.isArray(js.items)) {
+        // layout
+        item.is ??= 'div'
+        const items = [] as any[]
+        js.items.forEach((e2, i) => {
+          if (typeof e2 == 'boolean') return
+          const k = path ? `${path}.${i}` : i
+          queue.push(e2)
+          items.push(fromSchema2(model, queue, ctx, k))
+          queue.pop()
+        })
+        Object.assign(item, { min: js.minItems, max: js.maxItems, schema: js })
+        define(item, 'model', () => toValue(model))
+        define(item, 'modelValue', () => val(path))
+        item.children = items
+      }
       // todo e.uniqueItems
-      if (e.minItems != null || e.maxItems != null) {
+      if (js.minItems != null || js.maxItems != null) {
         item.rules.push({
-          min: e.minItems,
-          max: e.maxItems
+          min: js.minItems,
+          max: js.maxItems
         })
       }
       break
@@ -173,21 +193,27 @@ function fromSchema2(model: Obj, queue: JSONSchema7[], ctx, path?: string) {
   return item
 }
 
-function parseSchema(queue: JSONSchema7[]) {
+/*@__PURE__*/
+const wm = new WeakMap()
+
+function parseSchema(queue: JSONSchema7[]): JSONSchema7 {
   let e = queue[queue.length - 1]
 
   // todo
   if (e.$defs) {}
   
   if (e.$ref) {
-    if (e.$ref.startsWith('#/definitions/')) {
-      const k = e.$ref.split('#/definitions/')[1]
+    if (wm.has(e)) return wm.get(e)
+    wm.set(e, e = { ...e })
+  
+    if (e.$ref!.startsWith('#/definitions/')) {
+      const k = e.$ref!.split('#/definitions/')[1]
       const ref = queue[0].definitions?.[k] as JSONSchema7
       queue.push(ref)
-      e = { ...e, ...parseSchema(queue) }
+      defaultsDeep(e, parseSchema(queue))
       queue.pop()
     }
-    else if (e.$ref.startsWith('#/$defs/')) {
+    else if (e.$ref!.startsWith('#/$defs/')) {
       // todo
     }
   }
@@ -209,3 +235,9 @@ function parseSchema(queue: JSONSchema7[]) {
 
   return e
 }
+
+const defaultsDeep = (o1, o2) => assignInWith(o1, o2, (v1, v2) => (
+  isObject(v1) && isObject(v2) ? defaultsDeep(v1, v2) :
+  v1 !== void 0 ? v1 :
+  v2
+))

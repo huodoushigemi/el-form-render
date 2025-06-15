@@ -3,7 +3,6 @@ import { objectPick, reactiveComputed, toReactive } from '@vueuse/core'
 import { createRender } from '@el-lowcode/render'
 import { type Obj, unFn, useTransformer } from './utils'
 import { type Item, formItemRenderPropsBase } from './props'
-import { object } from 'zod'
 
 type CreateFormRenderOptions<F, FI> = {
   Form: any
@@ -58,6 +57,7 @@ export function createFormRender<F extends Obj, FI extends Obj>({ Form, formName
     name: formItemName,
     setup(props: Item, { attrs, slots }) {
       const form = inject(formRenderContextKey)
+      const injected = inject('form-item', void 0)
       const model = reactiveComputed(() => form?.model || reactive({}))
 
       const transformer = useTransformer(model, () => _prop(props), props)
@@ -67,7 +67,7 @@ export function createFormRender<F extends Obj, FI extends Obj>({ Form, formName
           ...objectPick(props, formItemKs),
           // ...props,
           lp: void 0,
-          [_fields.label]: _label(props),
+          [_fields.label]: injected?.noLabel ? void 0 : _label(props),
           [_fields.prop]: _prop(props),
           [_fields.rules]: _rules(props, model),
           '.__transformer': transformer

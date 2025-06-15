@@ -2,9 +2,13 @@ import path from 'path'
 import { build } from 'vite'
 import fs from 'fs'
 import fse from 'fs-extra/esm'
+import { remove } from 'es-toolkit'
 
 import pkg from '../package.json' with { type: 'json' }
 const external = Object.keys({ ...pkg.dependencies, ...pkg.peerDependencies, ...pkg.devDependencies })
+
+const inline = ['@el-lowcode/render', '@vueuse/core', 'es-toolkit', '@vue/shared']
+remove(external, v => inline.includes(v))
 
 const cwd = process.cwd()
 

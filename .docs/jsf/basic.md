@@ -148,18 +148,13 @@ import Form, { schema2items } from 'el-form-render/element-plus'
 
 const model = ref({})
 
-// 自定义布局容器
-const Card = ({ label }, { slots }) =>(
-  h(ElCard, { header: label, class: 'mb4', bodyClass: 'grid grid-cols-2 gap-x-4 items-start' }, slots)
-)
-
 const items = schema2items(model, {
   type: 'object',
   properties: {
     name: { title: '名称', type: 'string' },
     age: { title: '年龄', type: 'number', minimum: 0 },
     like: { title: '爱好', type: 'array', enum: ['Code', 'Game'], ui: { type: 'checks' } },
-    resume: { title: '简历', type: 'object', ui: { is: Card }, properties: {
+    resume: { title: '简历', type: 'object', 'ui:bodyClass': 'grid cols-2 gap-x-4 items-start', properties: {
       year: { title: '工龄', type: 'number', minimum: 0 },
       email: { title: '邮件', type: 'string' },
       job: { title: '职位', type: 'string', enum: ['程序员', '设计师', '产品经理'] },
@@ -198,10 +193,55 @@ const items = schema2items(model, {
   type: 'object',
   properties: {
     str1_arr: { type: 'array', items: { type: 'string' } },
-    str2_arr: { type: 'array', items: { type: 'string' }, ui: { type: 'input-tag' } },
+    str2_arr: { type: 'array', items: { type: 'string' }, 'ui:type': 'input-tag' },
   }
 })
+</script>
+```
 
-console.log(items)
+表格布局
+
+```vue preview
+<template>
+  <Form ref="form" :model="model" :items="items" @_submit="">
+    <el-form-item>
+      <code block><pre>model: {{ JSON.stringify(model, null, '  ') }}</pre></code>
+    </el-form-item>
+  </Form>
+</template>
+
+<script setup lang='jsx'>
+import { ref, provide, defineComponent } from 'vue'
+import Form, { schema2items } from 'el-form-render/element-plus'
+
+const model = ref({
+  tags: ['编程', 'JavaScript', 'Vue'],
+  posts: [{}, {}]
+})
+
+const opts = { enum: [true, false], enumName: ['true', 'true'] }
+
+const items = schema2items(model, {
+  definitions: {
+    User: {
+      type: 'object',
+      properties: {
+        name: { title: '名称', type: 'string' },
+        email: { title: '邮件', type: 'string' },
+        tags: { title: '标签', type: 'array', items: { type: 'string' }, 'ui:type': 'input-tag' },
+        posts: { title: '文章列表', type: 'array', items: { $ref: '#/definitions/Post' } },
+      }
+    },
+    Post: {
+      type: 'object',
+      properties: {
+        title: { title: '标题', type: 'string' },
+        content: { title: '内容', type: 'string' },
+        date: { title: '日期', type: 'string' },
+      }
+    },
+  },
+  $ref: '#/definitions/User'
+})
 </script>
 ```

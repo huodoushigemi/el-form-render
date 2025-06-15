@@ -1,7 +1,6 @@
 import type { ExtractPropTypes, PropType } from 'vue'
 import type { Fnable, Obj } from './utils'
 
-// import { Awaitable } from '@vueuse/core'
 type Awaitable<T> = Promise<T> | T
 
 export type NormalizedOpt = {

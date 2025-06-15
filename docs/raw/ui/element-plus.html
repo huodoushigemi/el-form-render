@@ -6,14 +6,14 @@
     <title>el-form-render</title>
     <meta name="description" content="🚀 AI 友好型 JSON 渲染表单，无限扩展">
     <meta name="generator" content="VitePress v1.6.3">
-    <link rel="preload stylesheet" href="/el-form-render/assets/style.Cq5Rn13u.css" as="style">
+    <link rel="preload stylesheet" href="/el-form-render/assets/style.DNpP-Gun.css" as="style">
     <link rel="preload stylesheet" href="/el-form-render/vp-icons.css" as="style">
     
-    <script type="module" src="/el-form-render/assets/app.BVWXovlh.js"></script>
+    <script type="module" src="/el-form-render/assets/app.Dn-nuBic.js"></script>
     <link rel="preload" href="/el-form-render/assets/inter-roman-latin.Di8DUHzh.woff2" as="font" type="font/woff2" crossorigin="">
-    <link rel="modulepreload" href="/el-form-render/assets/chunks/theme.0mm1nXGl.js">
+    <link rel="modulepreload" href="/el-form-render/assets/chunks/theme.I9pp6g2o.js">
     <link rel="modulepreload" href="/el-form-render/assets/chunks/framework.C9-9fwSE.js">
-    <link rel="modulepreload" href="/el-form-render/assets/raw_ui_element-plus.md.BX_SaRq1.lean.js">
+    <link rel="modulepreload" href="/el-form-render/assets/raw_ui_element-plus.md.DOpJsSJS.lean.js">
     <script id="check-dark-mode">(()=>{const e=localStorage.getItem("vitepress-theme-appearance")||"auto",a=window.matchMedia("(prefers-color-scheme: dark)").matches;(!e||e==="auto"?a:e==="dark")&&document.documentElement.classList.add("dark")})();</script>
     <script id="check-mac-os">document.documentElement.classList.toggle("mac",/Mac|iPhone|iPod|iPad/i.test(navigator.platform));</script>
   </head>
@@ -22,35 +22,29 @@
 
 支持 [`el-form`](https://element-plus.org/zh-CN/component/form.html#form-api) 所有属性
 
-## 导入
+## 安装
 
-```js
-import Form from &#39;el-form-render/element-plus&#39;
+&lt;small&gt;请确保已安装 `element-plus`&lt;/small&gt;
+
+```bash
+pnpm add el-form-render
 ```
 
 ## 基础用法
 
+### 基础用法
+
 ```vue preview
 &lt;template&gt;
   &lt;Form :model=&quot;model&quot; label-width=&quot;60px&quot; @_submit=&quot;onSubmit&quot; :items=&quot;[
-    { lp: [&#39;姓名&#39;, &#39;name&#39;] },
-    { lp: [&#39;地址&#39;, &#39;address&#39;], required: true },
-    { lp: [&#39;年龄&#39;, &#39;age&#39;], type: &#39;slider&#39; },
-    { lp: [&#39;区域&#39;, &#39;area&#39;], options: [&#39;Beijing&#39;, &#39;Shanghai&#39;] },
-    { lp: [&#39;性别&#39;, &#39;sex&#39;], type: &#39;radios&#39;, options: [&#39;男&#39;, &#39;女&#39;] },
-    { lp: [&#39;爱好&#39;, &#39;like&#39;], type: &#39;checks&#39;, options: [&#39;CODE&#39;, &#39;LOL&#39;] },
-    { lp: [&#39;是否&#39;, &#39;is&#39;], type: &#39;checkbox&#39; },
+    { lp: [&#39;字段1&#39;, &#39;field1&#39;], required: true },
+    { lp: [&#39;字段2&#39;, &#39;field2&#39;] },
   ]&quot;&gt;
     &lt;el-form-item&gt;
-      &lt;el-button type=&quot;primary&quot; native-type=&quot;submit&quot;&gt;Submit&lt;/el-button&gt;
-      &lt;el-button native-type=&quot;reset&quot;&gt;Reset&lt;/el-button&gt;
-    &lt;/el-form-item&gt;
-
-    &lt;el-form-item&gt;
-      &lt;code block&gt;&lt;pre&gt;model: {{ JSON.stringify(model, null, &#39;  &#39;) }}&lt;/pre&gt;&lt;/code&gt;
+      &lt;el-button type=&quot;primary&quot; native-type=&quot;submit&quot;&gt;提交&lt;/el-button&gt;
+      &lt;el-button native-type=&quot;reset&quot;&gt;重置&lt;/el-button&gt;
     &lt;/el-form-item&gt;
   &lt;/Form&gt;
-  
 &lt;/template&gt;
 
 &lt;script setup&gt;
@@ -65,6 +59,385 @@ async function onSubmit() {
 &lt;/script&gt;
 ```
 
+### 登录表单
+
+```vue preview
+&lt;template&gt;
+  &lt;Form :model=&quot;model&quot; label-width=&quot;60px&quot; @_submit=&quot;onSubmit&quot; :items=&quot;[
+    { lp: [&#39;账户&#39;, &#39;username&#39;], required: true, el: { placeholder: &#39;用户名 / 邮箱&#39; } },
+    { lp: [&#39;密码&#39;, &#39;password&#39;], required: true, el: { type: &#39;password&#39; } },
+  ]&quot;&gt;
+    &lt;el-form-item&gt;
+      &lt;el-checkbox&gt;记住我&lt;/el-checkbox&gt;
+      &lt;a class=&quot;ml-a&quot; href=&quot;#&quot;&gt;忘记密码&lt;/a&gt;
+    &lt;/el-form-item&gt;
+    &lt;el-form-item&gt;
+      &lt;el-button type=&quot;primary&quot; native-type=&quot;submit&quot;&gt;提交&lt;/el-button&gt;
+      &lt;el-button native-type=&quot;reset&quot;&gt;重置&lt;/el-button&gt;
+    &lt;/el-form-item&gt;
+
+    &lt;el-form-item&gt;
+      &lt;code block&gt;&lt;pre&gt;model: {{ JSON.stringify(model, null, &#39;  &#39;) }}&lt;/pre&gt;&lt;/code&gt;
+    &lt;/el-form-item&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import { ref } from &#39;vue&#39;
+import Form from &#39;el-form-render/element-plus&#39;
+
+const model = ref({})
+
+async function onSubmit() {
+  alert(&#39;Success&#39;)
+}
+&lt;/script&gt;
+```
+
+### 评论表单
+
+```vue preview
+&lt;template&gt;
+  &lt;Form :model=&quot;model&quot; label-width=&quot;60px&quot; @_submit=&quot;onSubmit&quot; :items=&quot;[
+    { lp: [&#39;昵称&#39;, &#39;name&#39;], required: true },
+    { lp: [&#39;内容&#39;, &#39;content&#39;], required: true, el: { type: &#39;textarea&#39; } },
+    { lp: [&#39;内容&#39;, &#39;rate&#39;], type: &#39;rate&#39;, required: true },
+  ]&quot;&gt;
+    &lt;el-form-item&gt;
+      &lt;el-button type=&quot;primary&quot; native-type=&quot;submit&quot;&gt;提交&lt;/el-button&gt;
+      &lt;el-button native-type=&quot;reset&quot;&gt;重置&lt;/el-button&gt;
+    &lt;/el-form-item&gt;
+
+    &lt;el-form-item&gt;
+      &lt;code block&gt;&lt;pre&gt;model: {{ JSON.stringify(model, null, &#39;  &#39;) }}&lt;/pre&gt;&lt;/code&gt;
+    &lt;/el-form-item&gt;
+  &lt;/Form&gt;
+  
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import { ref } from &#39;vue&#39;
+import Form from &#39;el-form-render/element-plus&#39;
+
+const model = ref({ rate: 5 })
+
+async function onSubmit() {
+  alert(&#39;Success&#39;)
+}
+&lt;/script&gt;
+```
+
+### 个人信息
+
+头像组件 使用了 `el.is` 属性自定义 上传组件
+
+```vue preview
+&lt;template&gt;
+  &lt;Form :model=&quot;model&quot; label-width=&quot;60px&quot; @_submit=&quot;onSubmit&quot; :items=&quot;[
+    { lp: [&#39;名称&#39;, &#39;name&#39;], required: true },
+    { lp: [&#39;头像&#39;, &#39;avatar&#39;], el: { is: Upload } },
+    { lp: [&#39;性别&#39;, &#39;sex&#39;], type: &#39;radios&#39;, options: [&#39;男&#39;, &#39;女&#39;, &#39;其他&#39;] },
+    { lp: [&#39;生日&#39;, &#39;birthday&#39;], type: &#39;date-picker&#39;, el: { valueFormat: &#39;YYYY-MM-DD&#39; } },
+    { lp: [&#39;标签&#39;, &#39;tags&#39;], type: &#39;input-tag&#39; },
+    { lp: [&#39;备注&#39;, &#39;remarks&#39;], el: { type: &#39;textarea&#39; } },
+  ]&quot;&gt;
+    &lt;el-form-item&gt;
+      &lt;code block&gt;&lt;pre&gt;model: {{ JSON.stringify(model, null, &#39;  &#39;) }}&lt;/pre&gt;&lt;/code&gt;
+    &lt;/el-form-item&gt;
+
+    &lt;el-form-item&gt;
+      &lt;el-button type=&quot;primary&quot; native-type=&quot;submit&quot;&gt;提交&lt;/el-button&gt;
+      &lt;el-button native-type=&quot;reset&quot;&gt;重置&lt;/el-button&gt;
+    &lt;/el-form-item&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;
+
+&lt;script setup lang=&#39;jsx&#39;&gt;
+import { ref } from &#39;vue&#39;
+import Form from &#39;el-form-render/element-plus&#39;
+
+const model = ref({
+  name: &#39;姬坂乃爱&#39;,
+  avatar: &#39;http://mms2.baidu.com/it/u=442450315,2839780031&amp;fm=253&amp;app=138&amp;f=JPEG?w=500&amp;h=500&#39;,
+  sex: &#39;女&#39;,
+  birthday: &#39;2012-11-24&#39;,
+  tags: [&#39;天使降临到我身边&#39;, &#39;可爱&#39;],
+  remarks: &#39;多亏我的可爱才成功走过来了吧 ~ !&#39;,
+})
+
+// 自定义 上传组件
+const Upload = ({ modelValue: url }, { emit }) =&gt; (
+  &lt;el-upload
+    file-list={url ? [{ url }] : []}
+    onUpdate:fileList={v =&gt; emit(&#39;update:modelValue&#39;, v[0]?.url)}
+    list-type=&#39;picture-card&#39;
+    limit={1}
+  /&gt;
+)
+
+async function onSubmit(v) {
+  console.log(v)
+  alert(&#39;Success&#39;)
+}
+&lt;/script&gt;
+```
+
+## 格式化值
+
+通过设置 `get` `set` 控制组件的值
+
+- `get`：相当于组件的 `model-value` 属性
+- `set`：相当于组件 `@update:model-value` 事件
+
+```vue preview
+&lt;template&gt;
+  &lt;Form :model=&quot;model&quot; label-width=&quot;60px&quot; @_submit=&quot;onSubmit&quot; :items=&quot;[
+    { lp: [&#39;开关&#39;, &#39;onoff&#39;], type: &#39;switch&#39;, get: v =&gt; !!v, set: v =&gt; +v },
+  ]&quot;&gt;
+    &lt;el-form-item&gt;
+      &lt;code block&gt;&lt;pre&gt;model: {{ JSON.stringify(model, null, &#39;  &#39;) }}&lt;/pre&gt;&lt;/code&gt;
+    &lt;/el-form-item&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import { ref } from &#39;vue&#39;
+import Form from &#39;el-form-render/element-plus&#39;
+
+const model = ref({})
+
+async function onSubmit() {
+  alert(&#39;Success&#39;)
+}
+&lt;/script&gt;
+```
+
+## 组件联动
+
+`vIf` 控制元素是否渲染
+
+```vue preview
+&lt;template&gt;
+  &lt;Form :model=&quot;model&quot; label-width=&quot;auto&quot; :items=&quot;[
+    { lp: [&#39;显示&#39;, &#39;show&#39;], type: &#39;switch&#39; },
+    { lp: [&#39;名称&#39;, &#39;name&#39;], vIf: () =&gt; model.show }
+  ]&quot; /&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import { ref } from &#39;vue&#39;
+import Form from &#39;el-form-render/element-plus&#39;
+
+const model = ref({ show: true })
+&lt;/script&gt;
+```
+
+`vIf` 可以控制任何元素
+
+```vue preview
+&lt;template&gt;
+  &lt;Form :model=&quot;model&quot; label-width=&quot;auto&quot; :items=&quot;[
+    { lp: [&#39;显示&#39;, &#39;show&#39;], type: &#39;switch&#39; },
+    { is: &#39;p&#39;, vIf: () =&gt; model.show, children: &#39;😂😂😂😂😂😂😂&#39; },
+    { lp: [&#39;名称&#39;, &#39;name&#39;] }
+  ]&quot;/&gt;
+
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import { ref } from &#39;vue&#39;
+import Form from &#39;el-form-render/element-plus&#39;
+
+const model = ref({ show: true })
+&lt;/script&gt;
+```
+
+## 自定义组件
+
+::: info
+大部分情况 `type` 提供的组件已足够满足需求，但总有需要定制化的场景，这时候 `el.is` 属性就派上用场了
+:::
+
+### 接入标准
+
+自定义组件接入的关键是在组件内部实现 `v-model`
+
+- `props` 需要接收 `modelValue`
+- 对外触发 `update:modelValue` 事件
+
+```vue preview
+&lt;template&gt;
+  &lt;Form :model=&quot;model&quot; label-width=&quot;60px&quot; @_submit=&quot;onSubmit&quot; :items=&quot;[
+    { is: &#39;el-divider&#39;, children: &#39;自定义组件&#39; },
+    { lp: [&#39;姓名&#39;, &#39;name&#39;], el: { is: MyInput, placeholder: &#39;这是一个原生输入框&#39; } },
+    { lp: [&#39;年龄&#39;, &#39;age&#39;], el: { is: MyRange } },
+    { lp: [&#39;是否&#39;, &#39;is&#39;], el: { is: MyCheckbox } }, 
+    { lp: [&#39;日期&#39;, &#39;date&#39;], el: { is: MyDate } },
+    
+    { is: &#39;el-divider&#39;, children: &#39;element-plus&#39; },
+    { lp: [&#39;姓名&#39;, &#39;name&#39;] },
+    { lp: [&#39;年龄&#39;, &#39;age&#39;], type: &#39;slider&#39; },
+    { lp: [&#39;是否&#39;, &#39;is&#39;], type: &#39;checkbox&#39; },
+    { lp: [&#39;日期&#39;, &#39;date&#39;], type: &#39;date-picker&#39;, el: { valueFormat: &#39;YYYY-MM-DD&#39; } },
+    { is: &#39;el-divider&#39; },
+  ]&quot;&gt;
+    &lt;el-form-item&gt;
+      &lt;el-button type=&quot;primary&quot; native-type=&quot;submit&quot;&gt;提交&lt;/el-button&gt;
+      &lt;el-button native-type=&quot;reset&quot;&gt;重置&lt;/el-button&gt;
+    &lt;/el-form-item&gt;
+
+    &lt;el-form-item&gt;
+      &lt;code block&gt;&lt;pre&gt;model: {{ JSON.stringify(model, null, &#39;  &#39;) }}&lt;/pre&gt;&lt;/code&gt;
+    &lt;/el-form-item&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import { h, ref } from &#39;vue&#39;
+import Form from &#39;el-form-render/element-plus&#39;
+
+const model = ref({ age: 26 })
+
+// 自定义 input
+const MyInput = ({ modelValue, ...attrs }, { emit }) =&gt; (
+  h(&#39;input&#39;, { type: &#39;text&#39;, value: modelValue, onInput: e =&gt; emit(&#39;update:modelValue&#39;, e.target.value), ...attrs })
+)
+
+// 自定义 sider
+const MyRange = ({ modelValue, ...attrs }, { emit }) =&gt; (
+  h(&#39;input&#39;, { type: &#39;range&#39;, value: modelValue, onInput: e =&gt; emit(&#39;update:modelValue&#39;, +e.target.value), ...attrs })
+)
+
+// 自定义 checkbox
+const MyCheckbox = ({ modelValue, ...attrs }, { emit }) =&gt; (
+  h(&#39;input&#39;, { type: &#39;checkbox&#39;, checked: modelValue, onInput: e =&gt; emit(&#39;update:modelValue&#39;, e.target.checked), ...attrs })
+)
+
+// 自定义 date
+const MyDate = ({ modelValue, ...attrs }, { emit }) =&gt; (
+  h(&#39;input&#39;, { type: &#39;date&#39;, value: modelValue, onInput: e =&gt; emit(&#39;update:modelValue&#39;, e.target.value), ...attrs })
+)
+
+async function onSubmit() {
+  alert(&#39;Success&#39;)
+}
+&lt;/script&gt;
+
+&lt;style scope&gt;
+input[type=&quot;text&quot;],
+input[type=&quot;range&quot;] {
+  width: 100%;
+}
+&lt;/style&gt;
+```
+
+## 自定义布局
+
+
+### 3 列布局
+
+使用 css 的网格布局实现 3 列布局 `grid grid-cols-3 gap-x-8`
+
+```vue preview
+&lt;template&gt;
+  &lt;Form class=&quot;grid grid-cols-3 gap-x-8&quot; :items=&quot;[
+    { lp: &#39;输入&#39; },
+    { lp: &#39;输入&#39; },
+    { lp: &#39;输入&#39; },
+    { lp: &#39;输入&#39; },
+    { lp: &#39;输入&#39;, class: &#39;col-span-2&#39; },
+  ]&quot; /&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import Form from &#39;el-form-render/element-plus&#39;
+&lt;/script&gt;
+```
+
+### 多列布局
+
+```vue preview
+&lt;template&gt;
+  &lt;Form :items=&quot;[
+    { is: &#39;el-divider&#39;, children: &#39;1 列布局&#39; },
+    { lp: &#39;输入&#39; },
+    { is: &#39;el-divider&#39;, children: &#39;2 列布局&#39; },
+    { is: &#39;div&#39;, class: &#39;grid grid-cols-2 gap-x-8&#39;, children: [
+      { lp: &#39;输入&#39; },
+      { lp: &#39;输入&#39; },
+    ] },
+    { is: &#39;el-divider&#39;, children: &#39;3 列布局&#39; },
+    { is: &#39;div&#39;, class: &#39;grid grid-cols-3 gap-x-8&#39;, children: [
+      { lp: &#39;输入&#39; },
+      { lp: &#39;输入&#39; },
+      { lp: &#39;输入&#39; },
+    ] },
+    { is: &#39;el-divider&#39;, children: &#39;4 列布局&#39; },
+    { is: &#39;div&#39;, class: &#39;grid grid-cols-4 gap-x-8&#39;, children: [
+      { lp: &#39;输入&#39; },
+      { lp: &#39;输入&#39; },
+      { lp: &#39;输入&#39; },
+      { lp: &#39;输入&#39; },
+    ] },
+  ]&quot; /&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import Form from &#39;el-form-render/element-plus&#39;
+&lt;/script&gt;
+```
+
+### 折叠面板 布局
+
+```vue preview
+&lt;template&gt;
+  &lt;Form :items=&quot;[
+    { is: &#39;el-collapse&#39;, children: [
+      { is: &#39;el-collapse-item&#39;, title: &#39;Item 1&#39;, children: [
+        { lp: &#39;输入 1&#39; },
+        { lp: &#39;输入 1&#39; },
+        { lp: &#39;输入 1&#39; },
+      ] },
+      { is: &#39;el-collapse-item&#39;, title: &#39;Item 2&#39;, children: [
+        { lp: &#39;输入 2&#39; },
+        { lp: &#39;输入 2&#39; },
+        { lp: &#39;输入 2&#39; },
+      ] }
+    ] },
+  ]&quot; /&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import Form from &#39;el-form-render/element-plus&#39;
+&lt;/script&gt;
+```
+
+### Tabs 布局
+
+```vue preview
+&lt;template&gt;
+  &lt;Form :items=&quot;[
+    { lp: &#39;输入&#39; },
+    { is: &#39;el-tabs&#39;, children: [
+      { is: &#39;el-tab-pane&#39;, label: &#39;Pane 1&#39;, children: [
+        { lp: &#39;输入 1&#39; },
+        { lp: &#39;输入 1&#39; },
+        { lp: &#39;输入 1&#39; },
+      ] },
+      { is: &#39;el-tab-pane&#39;, label: &#39;Pane 2&#39;, children: [
+        { lp: &#39;输入 2&#39; },
+        { lp: &#39;输入 2&#39; },
+        { lp: &#39;输入 2&#39; },
+      ] }
+    ] },
+  ]&quot; /&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import Form from &#39;el-form-render/element-plus&#39;
+&lt;/script&gt;
+```
+
 ## Results
 
 ::: tip
@@ -72,8 +445,14 @@ async function onSubmit() {
 
 如果不指定 `type` 则默认为 `input`
 :::
-</pre></div></div></main><footer class="VPDocFooter" data-v-50a88567 data-v-90ca3f0f><!--[--><!--]--><!----><nav class="prev-next" aria-labelledby="doc-footer-aria-label" data-v-90ca3f0f><span class="visually-hidden" id="doc-footer-aria-label" data-v-90ca3f0f>Pager</span><div class="pager" data-v-90ca3f0f><!----></div><div class="pager" data-v-90ca3f0f><a class="VPLink link pager-link next" href="/el-form-render/el-form-render/quickstart.html" data-v-90ca3f0f><!--[--><span class="desc" data-v-90ca3f0f>Next page</span><span class="title" data-v-90ca3f0f>快速开始</span><!--]--></a></div></nav></footer><!--[--><!--]--></div></div></div><!--[--><!--]--></div></div><!----><!--[--><!--]--></div></div>
-    <script>window.__VP_HASH_MAP__=JSON.parse("{\"api-examples.md\":\"CaSJfpYj\",\"docs_doc.md\":\"BagrALMj\",\"docs_docs.md\":\"CROCRJTH\",\"docs_intro.md\":\"Ck4JJ4kx\",\"el-form-render_basic.md\":\"Bu_-DkId\",\"el-form-render_is.md\":\"D5jyrrVh\",\"el-form-render_layout.md\":\"DVWZlouy\",\"el-form-render_linkage.md\":\"DZvqopEJ\",\"el-form-render_options.md\":\"D429-4oL\",\"el-form-render_quickstart.md\":\"BP3fmDSy\",\"index.md\":\"7yu3eiUu\",\"jsf_basic.md\":\"nQiCvB6-\",\"markdown-examples.md\":\"DuRFOrQh\",\"raw_api-examples.md\":\"RehIcfAL\",\"raw_docs_doc.md\":\"C8aJJB4z\",\"raw_docs_docs.md\":\"m_7Gg5AW\",\"raw_docs_intro.md\":\"DY3rq8LN\",\"raw_el-form-render_basic.md\":\"Dq7dciAW\",\"raw_el-form-render_is.md\":\"BM-dCemx\",\"raw_el-form-render_layout.md\":\"-BXbW9Yd\",\"raw_el-form-render_linkage.md\":\"BKQ1Ahrh\",\"raw_el-form-render_options.md\":\"DbHbcl8K\",\"raw_el-form-render_quickstart.md\":\"DB8IUDN-\",\"raw_index.md\":\"BFswSwej\",\"raw_jsf_basic.md\":\"DwtwbI-I\",\"raw_markdown-examples.md\":\"DkxJo6TU\",\"raw_ui_antdv.md\":\"DQUqnZjO\",\"raw_ui_element-plus.md\":\"BX_SaRq1\",\"raw_ui_naive-ui.md\":\"DSiLr-07\",\"raw_ui_vant.md\":\"BcLknyzb\",\"raw_ui_vuetify.md\":\"DWiGBdcR\",\"ui_antdv.md\":\"as07EcDk\",\"ui_element-plus.md\":\"BXIq_X64\",\"ui_naive-ui.md\":\"C-AS5ZNf\",\"ui_vant.md\":\"Cclu5TRQ\",\"ui_vuetify.md\":\"BAH5Z1Sf\"}");window.__VP_SITE_DATA__=JSON.parse("{\"lang\":\"en-US\",\"dir\":\"ltr\",\"title\":\"el-form-render\",\"description\":\"🚀 AI 友好型 JSON 渲染表单，无限扩展\",\"base\":\"/el-form-render/\",\"head\":[],\"router\":{\"prefetchLinks\":true},\"appearance\":true,\"themeConfig\":{\"nav\":[{\"text\":\"Home\",\"link\":\"/\"},{\"text\":\"Components\",\"link\":\"/el-form-render/quickstart\"}],\"sidebar\":[{\"text\":\"el-form-render\",\"items\":[{\"text\":\"快速开始\",\"link\":\"/el-form-render/quickstart\"},{\"text\":\"基础使用\",\"link\":\"/el-form-render/basic\"},{\"text\":\"组件联动\",\"link\":\"/el-form-render/linkage\"},{\"text\":\"options 属性\",\"link\":\"/el-form-render/options\"},{\"text\":\"自定义组件\",\"link\":\"/el-form-render/is\"},{\"text\":\"复杂布局\",\"link\":\"/el-form-render/layout\"}]},{\"text\":\"JSON Schema\",\"items\":[{\"text\":\"基础使用\",\"link\":\"/jsf/basic\"}]},{\"text\":\"文档\",\"items\":[{\"text\":\"cursor\",\"link\":\"/docs/docs\"}]},{\"text\":\"UI 库\",\"items\":[{\"text\":\"element-plus\",\"link\":\"/ui/element-plus\"},{\"text\":\"naive-ui\",\"link\":\"/ui/naive-ui\"},{\"text\":\"antdv\",\"link\":\"/ui/antdv\"},{\"text\":\"vant\",\"link\":\"/ui/vant\"},{\"text\":\"vuetify\",\"link\":\"/ui/vuetify\"}]}],\"socialLinks\":[{\"icon\":\"github\",\"link\":\"https://github.com/huodoushigemi/el-form-render\"}]},\"locales\":{},\"scrollOffset\":134,\"cleanUrls\":false}");</script>
+
+&lt;style&gt;
+h3 {
+  margin: 1.5em 0 1em 0 !important;
+  font-size: 14px !important;
+}
+&lt;/style&gt;</pre></div></div></main><footer class="VPDocFooter" data-v-50a88567 data-v-90ca3f0f><!--[--><!--]--><!----><nav class="prev-next" aria-labelledby="doc-footer-aria-label" data-v-90ca3f0f><span class="visually-hidden" id="doc-footer-aria-label" data-v-90ca3f0f>Pager</span><div class="pager" data-v-90ca3f0f><!----></div><div class="pager" data-v-90ca3f0f><a class="VPLink link pager-link next" href="/el-form-render/el-form-render/quickstart.html" data-v-90ca3f0f><!--[--><span class="desc" data-v-90ca3f0f>Next page</span><span class="title" data-v-90ca3f0f>快速开始</span><!--]--></a></div></nav></footer><!--[--><!--]--></div></div></div><!--[--><!--]--></div></div><!----><!--[--><!--]--></div></div>
+    <script>window.__VP_HASH_MAP__=JSON.parse("{\"api-examples.md\":\"DjWfa3k0\",\"docs_doc.md\":\"BagrALMj\",\"docs_docs.md\":\"CROCRJTH\",\"docs_intro.md\":\"Ck4JJ4kx\",\"el-form-render_basic.md\":\"BKqQmPLz\",\"el-form-render_is.md\":\"CoPgXEkA\",\"el-form-render_layout.md\":\"OQebvfCG\",\"el-form-render_linkage.md\":\"DBkFTKJO\",\"el-form-render_options.md\":\"CQEbInVr\",\"el-form-render_quickstart.md\":\"BbCWwxxq\",\"index.md\":\"Dhc8KPwA\",\"jsf_basic.md\":\"rg6nQFcR\",\"markdown-examples.md\":\"DuRFOrQh\",\"raw_api-examples.md\":\"RehIcfAL\",\"raw_docs_doc.md\":\"C8aJJB4z\",\"raw_docs_docs.md\":\"m_7Gg5AW\",\"raw_docs_intro.md\":\"DY3rq8LN\",\"raw_el-form-render_basic.md\":\"Dq7dciAW\",\"raw_el-form-render_is.md\":\"BM-dCemx\",\"raw_el-form-render_layout.md\":\"-BXbW9Yd\",\"raw_el-form-render_linkage.md\":\"BKQ1Ahrh\",\"raw_el-form-render_options.md\":\"DbHbcl8K\",\"raw_el-form-render_quickstart.md\":\"DB8IUDN-\",\"raw_index.md\":\"BAFLizNO\",\"raw_jsf_basic.md\":\"Cfxkl3B_\",\"raw_markdown-examples.md\":\"DkxJo6TU\",\"raw_ui_antdv.md\":\"DQUqnZjO\",\"raw_ui_element-plus.md\":\"DOpJsSJS\",\"raw_ui_naive-ui.md\":\"DSiLr-07\",\"raw_ui_vant.md\":\"BcLknyzb\",\"raw_ui_vuetify.md\":\"DWiGBdcR\",\"ui_antdv.md\":\"6R_pdAMU\",\"ui_element-plus.md\":\"Dxno4m_U\",\"ui_naive-ui.md\":\"DIsb0wmE\",\"ui_vant.md\":\"CCfgeJgU\",\"ui_vuetify.md\":\"Bktfx8do\"}");window.__VP_SITE_DATA__=JSON.parse("{\"lang\":\"en-US\",\"dir\":\"ltr\",\"title\":\"el-form-render\",\"description\":\"🚀 AI 友好型 JSON 渲染表单，无限扩展\",\"base\":\"/el-form-render/\",\"head\":[],\"router\":{\"prefetchLinks\":true},\"appearance\":true,\"themeConfig\":{\"nav\":[{\"text\":\"Home\",\"link\":\"/\"},{\"text\":\"Components\",\"link\":\"/el-form-render/quickstart\"}],\"sidebar\":[{\"text\":\"el-form-render\",\"items\":[{\"text\":\"快速开始\",\"link\":\"/el-form-render/quickstart\"},{\"text\":\"基础使用\",\"link\":\"/el-form-render/basic\"},{\"text\":\"组件联动\",\"link\":\"/el-form-render/linkage\"},{\"text\":\"options 属性\",\"link\":\"/el-form-render/options\"},{\"text\":\"自定义组件\",\"link\":\"/el-form-render/is\"},{\"text\":\"复杂布局\",\"link\":\"/el-form-render/layout\"}]},{\"text\":\"JSON Schema\",\"items\":[{\"text\":\"基础使用\",\"link\":\"/jsf/basic\"}]},{\"text\":\"文档\",\"items\":[{\"text\":\"cursor\",\"link\":\"/docs/docs\"}]},{\"text\":\"UI 库\",\"items\":[{\"text\":\"element-plus\",\"link\":\"/ui/element-plus\"},{\"text\":\"naive-ui\",\"link\":\"/ui/naive-ui\"},{\"text\":\"antdv\",\"link\":\"/ui/antdv\"},{\"text\":\"vant\",\"link\":\"/ui/vant\"},{\"text\":\"vuetify\",\"link\":\"/ui/vuetify\"}]}],\"socialLinks\":[{\"icon\":\"github\",\"link\":\"https://github.com/huodoushigemi/el-form-render\"}]},\"locales\":{},\"scrollOffset\":134,\"cleanUrls\":false}");</script>
     
   </body>
 </html>
