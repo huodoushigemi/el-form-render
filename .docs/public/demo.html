@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>表单渲染</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    
+    <link rel="stylesheet" href="https://unpkg.com/element-plus@2.10.2/dist/index.css" />
+
+    <script type="importmap">
+      {
+        "imports": {
+          "vue": "https://unpkg.com/vue@3.5.16/dist/vue.runtime.esm-browser.prod.js",
+          "element-plus": "https://unpkg.com/element-plus@2.10.2/dist/index.full.mjs",
+          "el-form-render": "https://unpkg.com/el-form-render@1.1.1/index.mjs"
+        }
+      }
+    </script>
+
+    <script>
+      window.process ??= { env: {} }
+    </script>
+
+    <script type="module">
+      import { createApp, h, watchEffect, ref, reactive, computed } from 'vue'
+      import EP from 'element-plus'
+      import FormRender, { schema2items } from 'el-form-render'
+      
+      const qs = Object.fromEntries(new URLSearchParams(location.search).entries())
+
+      const Comp = qs.sfc ? await importJs(qs.sfc).then(e => e.default) : {
+        setup() {
+          const model = reactive({ posts: [] })
+          const props = ref()
+          const schema = computed(() => qs.schema ? JSON.parse(qs.schema) : props.value?.schema || {})
+          qs.props && importJs(qs.props).then(() => props.value = e.default)
+          return () => h(FormRender, {
+            ...props.value,
+            items: qs.items || props.value?.items || schema2items(model, schema.value),
+          })
+        }
+      }
+
+      // theme
+      document.documentElement.classList.add(qs.theme)
+
+      // utils
+      function importJs(js) {
+        const blob = new Blob([js], { type: "text/javascript" })
+        const url = URL.createObjectURL(blob)
+        return import(/* @vite-ignore */ url)
+      }
+
+      createApp(Comp)
+        .use(EP)
+        .mount('#app')
+    </script>
+  </body>
+</html>
