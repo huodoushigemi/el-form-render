@@ -15,6 +15,7 @@
       {
         "imports": {
           "vue": "https://unpkg.com/vue@3.5.16/dist/vue.runtime.esm-browser.prod.js",
+          "@vue/compiler-sfc": "https://unpkg.com/@vue/compiler-sfc@3.5.16/dist/compiler-sfc.esm-browser.js",
           "element-plus": "https://unpkg.com/element-plus@2.10.2/dist/index.full.mjs",
           "el-form-render": "https://unpkg.com/el-form-render@1.1.1/index.mjs"
         }
@@ -32,7 +33,7 @@
       
       const qs = Object.fromEntries(new URLSearchParams(location.search).entries())
 
-      const Comp = qs.sfc ? await importJs(qs.sfc).then(e => e.default) : {
+      const Comp = qs.sfc ? await vue2esm(qs.sfc).then(importJs).then(e => e.default) : {
         setup() {
           const model = reactive({ posts: [] })
           const props = ref()
@@ -53,6 +54,29 @@
         const blob = new Blob([js], { type: "text/javascript" })
         const url = URL.createObjectURL(blob)
         return import(/* @vite-ignore */ url)
+      }
+
+      async function vue2esm(vuetext, filename = '') {
+        const { compileScript, compileStyle, compileTemplate, parse } = import('@vue/compiler-sfc')
+        const scopeId = `data-v-${+new Date}`
+
+        const { descriptor, errors } = parse(vuetext)
+        const script = compileScript(descriptor, { id: scopeId, genDefaultAs: '__sfc__', inlineTemplate: true }).content
+        const style = descriptor.styles.map(e => compileStyle({ source: e.content, id: scopeId, filename }).code).join('\n')
+
+        const ret = [
+          script,
+          `const styleEl = document.createElement('style')
+          styleEl.innerHTML =  \`${style}\`
+          document.body.append(styleEl)\n`,
+          `export default __sfc__`,
+        ].join('\n\n')
+
+        console.groupCollapsed(filename)
+        console.log(ret);
+        console.groupEnd()
+
+        return ret
       }
 
       createApp(Comp)
