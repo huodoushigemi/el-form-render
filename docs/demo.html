@@ -57,7 +57,7 @@
       }
 
       async function vue2esm(vuetext, filename = '') {
-        const { compileScript, compileStyle, compileTemplate, parse } = import('@vue/compiler-sfc')
+        const { compileScript, compileStyle, compileTemplate, parse } = await import('@vue/compiler-sfc')
         const scopeId = `data-v-${+new Date}`
 
         const { descriptor, errors } = parse(vuetext)
