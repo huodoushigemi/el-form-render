@@ -1,6 +1,5 @@
 import { createVNode, resolveDynamicComponent } from 'vue'
 import { Form, FormItem } from 'ant-design-vue'
-// import { formProps, formItemProps } from 'ant-design-vue/es/form'
 
 import { createFormRender } from '../createFormRender'
 import { solveOptions } from '../utils'

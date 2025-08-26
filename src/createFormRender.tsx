@@ -110,7 +110,7 @@ export function createFormRender<F extends Obj, FI extends Obj>({ Form, formName
   
   const _formRenderProps = {
     model: { type: Object, default: () => reactive({}) },
-    items: Array,
+    items: [Array, Function],
   }
   const formRenderProps = {
     ...formProps,
@@ -143,9 +143,9 @@ export function createFormRender<F extends Obj, FI extends Obj>({ Form, formName
 
       function reset() {
         formRef.value.reset?.()
-        formRef.value.resetFields?.()
+        formRef.value.resetFields?.() // element-plus antdv 
         formRef.value.restoreValidation?.()
-        formRef.value.resetValidation?.()
+        formRef.value.resetValidation?.() // vant
         if (props.model) {
           Object.keys(props.model).forEach(k => props.model![k] = void 0)
           Object.assign(props.model, JSON.parse(initialModel || '{}'))
@@ -154,7 +154,7 @@ export function createFormRender<F extends Obj, FI extends Obj>({ Form, formName
 
       return () => (
         <Form ref={formRef} {...{...props, ...attrs, items: void 0, on_submit: void 0 }} onSubmit={submit} onReset={reset}>
-          {props.items?.map((item: any) => (
+          {unFn(props.items, props.model)?.map((item: any) => (
             <_FormItemRender {...item} key={_prop(item)} />
           ))}
           {slots.default?.()}

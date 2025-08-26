@@ -1,4 +1,4 @@
-import { createVNode, defineComponent, provide, resolveDynamicComponent } from 'vue'
+import { createVNode, resolveDynamicComponent } from 'vue'
 import { ElForm, ElFormItem, formItemProps, formProps } from 'element-plus'
 
 import { createFormRender } from '../createFormRender'

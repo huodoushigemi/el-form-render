@@ -1,6 +1,6 @@
 {
   "name": "el-form-render",
-  "version": "1.1.1",
+  "version": "2.0.0",
   "type": "module",
   "main": "index.mjs",
   "module": "index.mjs",
@@ -25,6 +25,7 @@
       "types": "./index.d.ts"
     },
     "./element-plus": "./ui/element-plus.mjs",
+    "./element-plus.wc": "./ui/element-plus.wc.mjs",
     "./naive-ui": "./ui/naive-ui.mjs",
     "./antdv": "./ui/antdv.mjs",
     "./vant": "./ui/vant.mjs",

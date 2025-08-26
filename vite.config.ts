@@ -8,6 +8,7 @@ export default defineConfig({
   resolve: {
     alias: {
       'el-form-render/element-plus': path.join(cwd, '/src/ui/element-plus'),
+      'el-form-render/element-plus.wc': path.join(cwd, '/src/ui/element-plus.wc'),
       'el-form-render/naive-ui': path.join(cwd, '/src/ui/naive-ui'),
       'el-form-render/antdv': path.join(cwd, '/src/ui/antdv'),
       'el-form-render/vant': path.join(cwd, '/src/ui/vant'),

@@ -3,6 +3,7 @@ import { NForm, NFormItem, formProps, formItemProps } from 'naive-ui'
 
 import { createFormRender } from '../createFormRender'
 import { solveOptions } from '../utils'
+import { customElement } from './web-component'
 
 const alias = {
   'input-tag': 'dynamic-tags',
@@ -67,9 +68,6 @@ const { FormRender, FormItemRender } = createFormRender({
     }[item.type!] || 'value'),
   }
 })
-
-FormRender.name = 'NFormRender'
-FormItemRender.name = 'NFormItemRender'
 
 export const NFormRender = FormRender
 export const NFormItemRender = FormItemRender

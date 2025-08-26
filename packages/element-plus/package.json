@@ -1,0 +1,21 @@
+{
+  "name": "@el-form-render/element-plus",
+  "version": "1.1.1-beta.2",
+  "type": "module",
+  "main": "index.mjs",
+  "module": "index.mjs",
+  "description": "vue3 render form-item easily",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/huodoushigemi/el-form-render"
+  },
+  "homepage": "https://huodoushigemi.github.io/el-form-render/",
+  "dependencies": {
+  },
+  "peerDependencies": {
+    "vue": "^3.*",
+    "element-plus": "^2.*",
+    "el-form-render": "^2.*"
+  }
+}
