@@ -111,6 +111,7 @@ export function createFormRender<F extends Obj, FI extends Obj>({ Form, formName
   const _formRenderProps = {
     model: { type: Object, default: () => reactive({}) },
     items: [Array, Function],
+    on_submit: Function,
   }
   const formRenderProps = {
     ...formProps,
@@ -135,7 +136,7 @@ export function createFormRender<F extends Obj, FI extends Obj>({ Form, formName
       const initialModel = JSON.stringify(props.model)
 
       async function submit(e) {
-        if (!attrs.on_submit) return
+        if (!props.on_submit) return
         e.preventDefault?.()
         await formRef.value.validate?.()
         emit('_submit', props.model)

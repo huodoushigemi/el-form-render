@@ -43,8 +43,11 @@ async function aaa(cwd, entry, { minify = false, full = false } = {}) {
   await build({
     root: cwd,
     configFile: path.join(process.cwd(), 'vite.config.ts'),
+    define: {
+      'process.env.NODE_ENV': '"production"'
+    },
     build: {
-      emptyOutDir: false,
+      emptyOutDir: true,
       copyPublicDir: false,
       target: 'esnext',
       outDir: 'dist',
@@ -64,6 +67,4 @@ async function aaa(cwd, entry, { minify = false, full = false } = {}) {
 }
 
 await aaa(cwd, input)
-
-// await aaa(path.join(cwd, 'packages/element-plus'), { index: 'index', wc: 'wc' })
-// await aaa(path.join(cwd, 'packages/element-plus'), { index: 'index', wc: 'wc' }, { minify: true, full: true })
+await aaa(path.join(cwd, 'packages/element-plus'), { index: 'index', wc: 'wc' }, { minify: true, full: true })

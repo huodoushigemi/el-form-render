@@ -85,8 +85,8 @@ importers:
   packages/element-plus:
     dependencies:
       el-form-render:
-        specifier: workspace:*
-        version: 'link:'
+        specifier: ^2.*
+        version: 2.0.0(vue@3.5.13(typescript@5.7.3))
       element-plus:
         specifier: ^2.*
         version: 2.9.9(vue@3.5.13(typescript@5.7.3))
@@ -1368,6 +1368,11 @@ packages:
 
   duplexer@0.1.2:
     resolution: {integrity: sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg==}
+
+  el-form-render@2.0.0:
+    resolution: {integrity: sha512-McxPBM/HYq06sInfFeghQ/9BLqm3EgbT9Pb+5x2ThTKMP0aU/jYeZPtkIasLRccO4ZUQpWniwOwv5sKJKiag5A==}
+    peerDependencies:
+      vue: ^3.*
 
   electron-to-chromium@1.5.144:
     resolution: {integrity: sha512-eJIaMRKeAzxfBSxtjYnoIAw/tdD6VIH6tHBZepZnAbE3Gyqqs5mGN87DvcldPUbVkIljTK8pY0CMcUljP64lfQ==}
@@ -3669,6 +3674,10 @@ snapshots:
   dom-scroll-into-view@2.0.1: {}
 
   duplexer@0.1.2: {}
+
+  el-form-render@2.0.0(vue@3.5.13(typescript@5.7.3)):
+    dependencies:
+      vue: 3.5.13(typescript@5.7.3)
 
   electron-to-chromium@1.5.144: {}
 
