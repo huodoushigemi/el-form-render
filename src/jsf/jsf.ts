@@ -1,6 +1,6 @@
 import { toValue } from 'vue'
 import type { JSONSchema7 } from 'json-schema'
-import { inRange, isPlainObject, merge, zip } from 'es-toolkit'
+import { inRange, isPlainObject, mergeWith, zip } from 'es-toolkit'
 import { assignInWith, get, isObject, set } from 'es-toolkit/compat'
 import { unFn, type Obj } from '../utils'
 
@@ -240,4 +240,8 @@ const defaultsDeep = (o1, o2) => assignInWith(o1, o2, (v1, v2) => (
   isObject(v1) && isObject(v2) ? defaultsDeep(v1, v2) :
   v1 !== void 0 ? v1 :
   v2
+))
+
+const merge = (o1, o2) => mergeWith(o1, o2, (v1, v2, k) => (
+  isObject(v1) && isObject(v2) ? merge(v1, v2) : v2
 ))

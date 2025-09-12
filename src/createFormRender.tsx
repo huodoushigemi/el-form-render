@@ -111,6 +111,7 @@ export function createFormRender<F extends Obj, FI extends Obj>({ Form, formName
   const _formRenderProps = {
     model: { type: Object, default: () => reactive({}) },
     items: [Array, Function],
+    processProps: Function,
     on_submit: Function,
   }
   const formRenderProps = {
@@ -125,7 +126,8 @@ export function createFormRender<F extends Obj, FI extends Obj>({ Form, formName
       const _FormItemRender = createRender({
         defaultIs: (item, { slots }) => (
           <FormItemRender {...item}>{{ default: slots[`$${_prop(item)}`] ?? slots.default }}</FormItemRender>
-        )
+        ),
+        processProps: props.processProps as any,
       })
       
       const formRef = ref({})
