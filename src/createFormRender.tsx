@@ -1,6 +1,7 @@
-import { type InjectionKey, defineComponent, inject, provide, ref, type ExtractPropTypes, mergeProps, camelize, renderSlot, reactive } from 'vue'
+import { type InjectionKey, defineComponent, inject, provide, ref, type ExtractPropTypes, mergeProps, camelize, renderSlot, reactive, type App } from 'vue'
 import { objectPick, reactiveComputed, toReactive } from '@vueuse/core'
 import { createRender } from '@el-lowcode/render'
+import { pick } from 'es-toolkit'
 import { type Obj, unFn, useTransformer } from './utils'
 import { type Item, formItemRenderPropsBase } from './props'
 
@@ -146,7 +147,7 @@ export function createFormRender<F extends Obj, FI extends Obj>({ Form, formName
 
       function reset() {
         formRef.value.reset?.()
-        formRef.value.resetFields?.() // element-plus antdv 
+        formRef.value.resetFields?.() // element-plus antdv
         formRef.value.restoreValidation?.()
         formRef.value.resetValidation?.() // vant
         if (props.model) {
@@ -156,15 +157,20 @@ export function createFormRender<F extends Obj, FI extends Obj>({ Form, formName
       }
 
       return () => (
-        <Form ref={formRef} {...{...props, ...attrs, items: void 0, on_submit: void 0 }} onSubmit={submit} onReset={reset}>
-          {unFn(props.items, props.model)?.map((item: any) => (
-            <_FormItemRender {...item} key={_prop(item)} />
-          ))}
-          {slots.default?.()}
-        </Form>
+        <_FormItemRender
+          is={Form} ref={formRef}
+          {...pick(props, Object.keys(formProps) as any)} {...attrs}
+          onSubmit={submit} onReset={reset}
+          children={() => [...unFn(props.items, props.model) || [], slots.default && { is: slots.default }]}
+        />
       )
     }
   })
+
+  FormRender.install = (app: App) => {
+    app.component(FormRender.name!, FormRender)
+    app.component(FormItemRender.name!, FormItemRender)
+  }
 
   return {
     FormRender,
