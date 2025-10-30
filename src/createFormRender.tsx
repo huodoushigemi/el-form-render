@@ -157,12 +157,13 @@ export function createFormRender<F extends Obj, FI extends Obj>({ Form, formName
       }
 
       return () => (
-        <_FormItemRender
-          is={Form} ref={formRef}
-          {...pick(props, Object.keys(formProps) as any)} {...attrs}
-          onSubmit={submit} onReset={reset}
-          children={() => [...unFn(props.items, props.model) || [], slots.default && { is: slots.default }]}
-        />
+        _FormItemRender(mergeProps({
+          is: Form,
+          ref: formRef,
+          onSubmit: submit,
+          onReset: reset,
+          children: () => [...unFn(props.items, props.model) || [], slots.default && { is: slots.default }]
+        }, pick(props, Object.keys(formProps) as any), attrs))
       )
     }
   })

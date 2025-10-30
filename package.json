@@ -1,6 +1,6 @@
 {
   "name": "el-form-render",
-  "version": "2.0.7",
+  "version": "2.0.10",
   "type": "module",
   "main": "index.mjs",
   "module": "index.mjs",

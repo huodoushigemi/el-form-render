@@ -17,7 +17,7 @@ const { FormRender, FormItemRender } = createFormRender({
   formProps: formProps,
   FormItem: (item, { slots }) => (
     (item.el?.is || `van-${alias[item.type] || item.type || 'field'}`) == 'van-field'
-      ? <van-field v-model={item['.__transformer'].value} {...{...item, ...item.el}} el={undefined}>{{...slots, input: undefined}}</van-field>
+      ? <van-field {...{...item, ...item.el}} el={undefined} v-model={item['.__transformer'].value}>{{...slots, input: undefined}}</van-field>
       : <van-field {...item} el={undefined}>{slots}</van-field>
   ),
   formItemName: 'VanFormItemRender',
